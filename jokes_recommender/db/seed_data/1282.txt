@@ -1,0 +1,9 @@
+V autobuse revízor kontroluje cestovné lístky. Zastaví sa okolo Pištu a pýta sa
+ho:
+- Váš lístok!
+- Môj lístok?
+- Váš lístok!
+- Môj lístok?
+- Človeče, čo ste hluchý?
+- A vy ste čo, doktor?
+Čo sa inde nehodí

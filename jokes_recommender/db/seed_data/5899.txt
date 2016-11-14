@@ -1,0 +1,4 @@
+Dežo chce spáchať samovraždu a preto vyskočí z okna z dvanásteho poschodia. Ako
+tak padá, počíta si poschodia, ktoré už \"prešiel\":
+- 12, 11, 10, 9, 8, 7, 8, 9, 10... dočerta, zasa tie traky!
+Totálne úlety

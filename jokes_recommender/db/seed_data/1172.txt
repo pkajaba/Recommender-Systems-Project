@@ -1,0 +1,4 @@
+ÚVAHA O SYRE:
+Ementál je syr, ktorý má diery. Čím viac je syra, tým je viac dier. Čím je viac
+dier, tým je menej syra. Teda: čím je viac syra, tým je menej syra.
+Čo sa inde nehodí

@@ -1,0 +1,2 @@
+Aby sme mohli definovať rekurziu, tak musíme najprv definovať rekurziu.
+Zo školských lavíc

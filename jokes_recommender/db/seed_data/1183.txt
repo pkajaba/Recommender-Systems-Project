@@ -1,0 +1,5 @@
+Letuška sa pýta cestujúceho:
+- Prosíte si niečo jesť?
+- A z čoho si môžem vybrať?
+- Áno alebo nie.
+Čo sa inde nehodí

@@ -1,0 +1,12 @@
+Hittler vysvetľuje svojim vojakom....
+Zrazu jeden vojak kýchne.
+- Kto to bol? - pýta sa Hittler.
+Nikto sa nehlási. Vystrieľa prvý rad a pýta sa:
+- Kto to bol?
+Nikto sa nehlási. Vystrieľa druhý rad a pýta sa:
+- Kto to bol?
+Nikto sa nehlási. Vystrieľa ďalší rad. Keď už vystrieľa asi 50 radov, vystúpi
+vojak a hovorí:
+- To som bol ja.
+- Nazdravie!!!
+Vojenské

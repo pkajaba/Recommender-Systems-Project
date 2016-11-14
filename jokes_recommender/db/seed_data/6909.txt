@@ -1,0 +1,9 @@
+V byte zazvoní telefón:
+- Haló, je doma Karol?
+- Nie, tu žiaden Karol nebýva!
+Po chvíli opäť zazvoní telefón:
+- Haló, je doma Karol?
+- Nie, veď vám vravím, že tu žiaden Karol nebýva!
+Po ďalšej chvíli znovu zazvoní telefón:
+- Nazdar, tu je Karol, nehľadal má niekto?
+Zo života

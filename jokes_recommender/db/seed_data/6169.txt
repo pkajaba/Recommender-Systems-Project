@@ -1,0 +1,7 @@
+Vojenské cvičenie. Veliteľ si dá nastúpiť vojakov a hovorí:
+- Vojaci, pokazila sa tankova vysielačka. Kto ju vie opraviť?
+Z rady vystúpi vojak a pýta sa:
+- Digitálna alebo analógová?
+A veliteľ hovorí:
+- Opakujem pre debilov. Pokazila sa vysielačka v tanku!
+Vojenské

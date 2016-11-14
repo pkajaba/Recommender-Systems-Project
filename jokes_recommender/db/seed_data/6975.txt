@@ -1,0 +1,12 @@
+Ide detektív Oriešok púšťou a stretne žirafu a pýta sa jej:
+- Ty si ťava?
+- Nie, ja som žirafa.
+Ide ďalej a stretne slona.
+- Ty si ťava?
+- Nie, ja som slon.
+Ide ďalej a stretne ťavu.
+- Ty si ťava?
+- Áno, ja som ťava.
+A dedektív oriešok víťazoslávne hovorí:
+- Dnes som rozriešil ďalšiu záhadu.
+Zo života

@@ -1,0 +1,8 @@
+Ide pytliak po lese a zabije jeleňa. Prehodí si ho cez pravé plece. Ide, ide po
+lese a stretne horára. Horár sa ho pýta:
+-Čo to máš na tom pleci?
+-Pytliak pozrie na ľavé plece a hovorí:
+-Kde?
+-Na druhom!
+-Aha, fúj, jeleň!
+Poľovnícke

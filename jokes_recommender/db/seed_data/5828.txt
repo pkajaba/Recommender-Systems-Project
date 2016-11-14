@@ -1,0 +1,3 @@
+- Koľko je hodín?
+- Ráno bolo sedem, vypočítaj si.
+Totálne úlety

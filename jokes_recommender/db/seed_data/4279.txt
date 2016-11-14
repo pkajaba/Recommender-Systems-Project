@@ -1,0 +1,8 @@
+Bola v našom hlavnom meste \"Výstava najmodernejšej americkej výpočtovej
+techniky\". Predvádzač hrdo vysvetľuje:
+- Toto je najmodernejší model amerického počítača. Dokáže porozumieť hovorovej
+ľudskej reči. Splní akékoľvek želanie, ktoré vyslovíte.
+- Môžem to vyskúšať? - pýta sa Fero.
+- Samozrejme, pane. Poďte bližšie a hovorte.
+- Formát cé, dvojbodka enter.
+Počítačové šialenstvo

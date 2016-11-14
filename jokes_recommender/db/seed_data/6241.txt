@@ -1,0 +1,7 @@
+Plukovník na vojne zaraďuje bažantov do skupín:
+- Tí, ktorí vychodili strednú a vysokú školu, sa zaradia do prvého radu. Tí,
+ktorí vychodili základnú, do druhého radu.
+Hlas zo zadu:
+- A čo tí, ktorí nevychodili žiadnu školu?
+- Tí sa zaradia za mňa!
+Vojenské

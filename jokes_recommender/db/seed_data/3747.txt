@@ -1,0 +1,11 @@
+Pacient pred operáciou leží na operačnom stole. Operujúci lekár hovorí svojmu
+asistentovi:
+- Musíme mu amputovať pravú nohu.
+- Švac!
+- Musíme mu amputovať pravú ruku.
+- Švac!
+- Ruku!
+- Švac!
+- Pravú!
+- Švac!
+Nemocničné pochúťky

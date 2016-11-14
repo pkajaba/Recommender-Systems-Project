@@ -1,0 +1,7 @@
+Riaditeľ sa pýta svojho nového vodiča:
+- Vaše meno?
+- Milan, pán riaditeľ.
+- Zamestnancov nevolám krstným menom. Priezvisko?
+- Zlatko.
+- Tak môžeme vyraziť, Milan!
+Pracovať, pracovať...

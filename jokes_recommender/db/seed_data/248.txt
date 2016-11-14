@@ -1,0 +1,4 @@
+Vyrazí jeden Slovák z bodu A do bodu B rýchlosťou 90 km/hod. Vyrazí druhý Slovák
+z bodu B do bodu A rýchlosťou 120 km/hod. Kde sa stretnú?
+Odpoveď: V krčme!
+Alkoholické opojenie

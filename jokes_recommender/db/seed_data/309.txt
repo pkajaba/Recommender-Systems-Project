@@ -1,0 +1,11 @@
+Policajt zastaví auto a pustí sa do jeho technickej kontroly. Prikáže vodičovi
+otvoriť kapotu a ukazuje na rôzne súčiastky:
+- Čo je toto?
+- Sviečka.
+- A toto?
+- Sviečka.
+- A toto?
+- Sviečka.
+Policajt sa nahnevá a vykríkne:
+- Tak čo je toto auto, alebo pojazdný betlehem?
+Auto-moto

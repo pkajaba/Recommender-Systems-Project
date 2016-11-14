@@ -1,0 +1,4 @@
+Zastaví policajt vodiča a hovorí:
+- Prosím si 500 Sk!
+- A kedy mi ich vrátite?
+Auto-moto

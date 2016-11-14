@@ -1,0 +1,4 @@
+Definícia vojaka:
+Hmota, odetá do zelených handier, ktorá sa dáva do pohybu za pomoci rozkazov a
+nadávok.
+Vojenské

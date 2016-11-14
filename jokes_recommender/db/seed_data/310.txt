@@ -1,0 +1,7 @@
+Policajt zbadá na okraji cesty pri lesíku odparkované auto. Vystúpi, prejde pár
+krokov a kričí:
+- Je tu majiteľ auta BA001AA?
+- Áno, tu som!
+- A papiere máte?
+- Nie, mne stačí aj lopúch!
+Auto-moto

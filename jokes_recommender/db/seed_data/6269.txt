@@ -1,0 +1,6 @@
+Príde podnapitý študent na skúšku z chémie. Vytiahne si otázku: Rozdelenie
+sacharidov. Sadne si a napíše \"Kryštáľový a práškový\" a odovzdá vyučujúcej
+profesorke. Tá mu na to povie:
+- Keď napíšete ešte jedno blbšie rozdelenie, tak dostanete skúšku.
+Študent si sadne a napíše \"Vanilkový a škoricový\".
+Zo školských lavíc

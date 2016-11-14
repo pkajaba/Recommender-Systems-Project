@@ -1,0 +1,5 @@
+Stojí vojak na stráži, okolo prejde generál a vojak nič. Generál sa vráti a pýta
+sa vojaka:
+- Vojak, nemali ste má náhodou pozdraviť?
+- Hej? A od koho?
+Vojenské
