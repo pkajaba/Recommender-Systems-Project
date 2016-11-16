@@ -37,6 +37,14 @@
       </div>
     </div>
   </nav>
+  <div id="user-widget">
+    <% if current_user %>
+      Welcome <strong><%= current_user.name %></strong>!
+      <%= link_to "Sign out", signout_path, id: "sign_out", :class => "btn btn-primary"  %>
+    <% else %>
+      <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in", :class => "btn btn-primary"  %>
+    <% end %>
+  </div>
   <div class="container">
     <% flash.each do |name, msg| %>
       <%= content_tag :div, class: "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do %>
