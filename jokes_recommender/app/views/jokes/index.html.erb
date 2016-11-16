@@ -16,9 +16,9 @@
       <tr>
         <td><%= joke.content %></td>
         <td><%= joke.category %></td>
-        <td><%= link_to 'Show', joke %></td>
-        <td><%= link_to 'Edit', edit_joke_path(joke) %></td>
-        <td><%= link_to 'Destroy', joke, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', joke, :class => "btn btn-default" %></td>
+        <td><%= link_to 'Edit', edit_joke_path(joke), :class => "btn btn-default" %></td>
+        <td><%= link_to 'Destroy', joke, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-default"%></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Joke', new_joke_path %>
+<%= link_to 'New Joke', new_joke_path, :class => 'btn btn-info'%>
