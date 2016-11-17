@@ -15,6 +15,7 @@ class JokesController < ApplicationController
   # GET /jokes/new
   def new
     @joke = Joke.new
+    @categories= Category.all
   end
 
   # GET /jokes/1/edit
