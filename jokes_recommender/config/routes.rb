@@ -8,4 +8,6 @@ Rails.application.routes.draw do
 
   root 'jokes#index'
 
+  get 'recommend_joke' => 'jokes#recommend', as: 'recommend_joke'
+  
 end

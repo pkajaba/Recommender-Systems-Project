@@ -4,7 +4,7 @@ class JokesController < ApplicationController
   # GET /jokes
   # GET /jokes.json
   def index
-    @jokes = Joke.all.limit(20)
+    @jokes = Joke.all.limit(5)
   end
 
   # GET /jokes/1
@@ -60,6 +60,10 @@ class JokesController < ApplicationController
       format.html { redirect_to jokes_url, notice: 'Joke was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def recommend
+    @joke = current_user.recommend_joke
   end
 
   private
