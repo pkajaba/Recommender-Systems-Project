@@ -8,5 +8,7 @@ class User < ApplicationRecord
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save!
     end
-  end
+    end
+
+  has_many :rating
 end

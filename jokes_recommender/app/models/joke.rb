@@ -1,3 +1,4 @@
 class Joke < ApplicationRecord
   belongs_to :category
+  has_many :rating
 end
