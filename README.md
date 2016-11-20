@@ -1,30 +1,32 @@
-# Recommender-Systems-Project
-This is simple recommender system which recommend jokes for subject PV254.
+# Jokes Recommendations
+This is simple recommend system which recommends jokes.
+Jokes were obtained from [funny.sk][1].
+Application is currently deployed [here][2].
 
-Jokes were obtained from www.funny.sk.
+##### Table of Contents
+* [System dependencies](System Dependencies) 
+* [Database creation](Database creation)
+* [Database initialization](Database initialization)
+* [Deployment instructions](Deployment instructions)
 
-Application is deployed here: http://agile-meadow-53738.herokuapp.com/
+#### System Dependencies
+You need these packages:
+`ruby
+postgresql
+postgresql-devel
+postgresql-server
+`
+#### Database creation
+Once you have installed postgresql you have to init db first.
+It can be done with this command `/usr/bin/postgresql-setup --initdb`.
+After this you have to start postgresql server. On systems with systemd it can be done with
+`systemctl enable postgresql && systemctl start postgresql`.
+Project is configured to use default database `postgres`.
+#### Database initialization
+After enabling database you have create schema it can be done with `rails db:schema:load`.
+You can also seed database with some jokes `rake db:seed `.
+#### Deployment instructions
+Application is deployed on [Heroku][2]. For local setup use `rails server`.
 
-Things you may want to cover:
-
-* Ruby version
-
-2.3.2
-
-* System dependencies
-
-Rails, postgresql, postgresql-devel
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+[1]: www.funny.sk
+[2]: http://agile-meadow-53738.herokuapp.com
