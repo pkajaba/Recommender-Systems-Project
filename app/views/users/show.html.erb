@@ -1,0 +1,22 @@
+<h2>Moje Kategórie</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th></th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @categories.each do |category| %>
+      <tr>
+        <td><%= category.name %></td>
+        <td><p class="nav navbar-text"><%= 'progress bar - kolko uz ohodnotil' %></p></td>
+        <td><p class="nav navbar-text"><%= 'priemerne hodnotenie' %></p></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>

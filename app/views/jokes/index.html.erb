@@ -1,10 +1,10 @@
-<h1>Jokes</h1>
+<h1>Vtipy</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Content</th>
-      <th>Category</th>
+      <th>Vtip</th>
+      <th>Kategória</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,9 +14,9 @@
       <tr>
         <td><%= joke.content %></td>
         <td><%= joke.category.name if !(joke.category.nil?) %></td>
-        <td><%= link_to 'Show', joke, :class => "btn btn-default" %></td>
-        <td><%= link_to 'Edit', edit_joke_path(joke), :class => "btn btn-default" %></td>
-        <td><%= link_to 'Destroy', joke, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-default"%></td>
+        <td><%#= link_to 'Show', joke, :class => "btn btn-default" %></td>
+        <td><%#= link_to 'Edit', edit_joke_path(joke), :class => "btn btn-default" %></td>
+        <td><%#= link_to 'Destroy', joke, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-default"%></td>
       </tr>
     <% end %>
   </tbody>
@@ -24,6 +24,4 @@
 
 <br>
 
-<%= link_to 'New Joke', new_joke_path, :class => 'btn btn-info'%>
-
-<%= link_to 'Recommend Joke', recommend_joke_path, :class => 'btn btn-info'%>
+<%#= link_to 'New Joke', new_joke_path, :class => 'btn btn-info'%>

@@ -4,7 +4,7 @@ class JokesController < ApplicationController
   # GET /jokes
   # GET /jokes.json
   def index
-    @jokes = Joke.all.limit(5)
+    @jokes = Joke.all
   end
 
   # GET /jokes/1

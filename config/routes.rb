@@ -1,15 +1,16 @@
 Rails.application.routes.draw do
-  resources :jokes
-  resources :categories
+  resources :jokes, only: :index
+  resources :categories, only: :index
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
   match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
 
-  root 'jokes#index'
+  root 'users#about'
 
   get 'recommend_joke' => 'jokes#recommend', as: 'recommend_joke'
 
-  get 'another_create' => 'sessions#anothter_create'
+  get 'my_profile' => 'users#show', as: 'my_profile'
+  get 'about' => 'users#about', as: 'about'
 
 end
