@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :jokes, only: :index
   resources :categories, only: :index
+  resources :users, only: [:new, :create]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
@@ -12,5 +13,8 @@ Rails.application.routes.draw do
 
   get 'my_profile' => 'users#show', as: 'my_profile'
   get 'about' => 'users#about', as: 'about'
+
+  get 'login' => 'sessions#login', as: 'login'
+
 
 end

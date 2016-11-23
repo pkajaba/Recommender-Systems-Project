@@ -1,0 +1,17 @@
+<%= bootstrap_form_for(user) do |f| %>
+    <% if user.errors.any? %>
+        <div class="alert alert-danger">
+          <% user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+          <% end %>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.text_field :name %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+<% end %>

@@ -9,4 +9,11 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to '/jokes'
   end
+
+  #fake login
+  def login
+    user = User.all.first
+    session[:user_id] = user.id
+    redirect_to '/jokes'
+  end
 end
