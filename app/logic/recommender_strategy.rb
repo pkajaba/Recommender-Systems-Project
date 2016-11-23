@@ -1,27 +1,30 @@
+require 'random_strategy'
+require 'item_based_cf_strategy'
+
 class RecommenderStrategy
   @@random_strategy = RandomStrategy.new
   @@item_based_cf_strategy = ItemBasedCFStrategy.new
 
-  def random_strategy
+  def self.random_strategy
     @@random_strategy
   end
 
-  def item_based_cf_strategy
+  def self.item_based_cf_strategy
     @@item_based_cf_strategy
   end
 
-  def randomize
+  def self.randomize
     rand(2)
   end
 
-  def strategy_by_number(number)
+  def self.strategy_by_number(number)
     case number
       when 0
         random_strategy
       when 1
         item_based_cf_strategy
       else
-        raise Exception "invalid parameter #{number}"
+        random_strategy
     end
   end
 

@@ -1,4 +1,4 @@
-require_relative '../logic/recommender_strategy'
+require_relative '../logic/recommender_strategy.rb'
 
 class User < ApplicationRecord
   has_many :ratings
