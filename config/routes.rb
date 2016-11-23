@@ -9,5 +9,7 @@ Rails.application.routes.draw do
   root 'jokes#index'
 
   get 'recommend_joke' => 'jokes#recommend', as: 'recommend_joke'
-  
+
+  get 'another_create' => 'sessions#anothter_create'
+
 end

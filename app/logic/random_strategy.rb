@@ -1,4 +1,4 @@
-class RandomStrategy < RecommenderStrategy
+class RandomStrategy
   def initialize
 
   end
