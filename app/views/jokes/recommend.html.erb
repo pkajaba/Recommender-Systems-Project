@@ -8,4 +8,22 @@
   <%= @joke.category.name %>
 </p>
 
+<%= link_to recommend_joke_path do %>
+<div id="user_star"></div>
+<% end  %>
+
 <%= link_to 'Back', jokes_path, :class => "btn btn-default" %>
+
+<script>
+  $('#user_star').raty({
+    user_rating: <%= @rating.user_rating %>,
+    path: '/assets',
+    click: function(user_rating, evt) {
+      $.ajax({
+        url: '/ratings/' + <%= @rating.id %>,
+        type: 'PATCH',
+        data: { user_rating: user_rating}
+      });
+    }
+  });
+</script>
