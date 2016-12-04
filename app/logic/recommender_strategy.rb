@@ -20,22 +20,31 @@ class RecommenderStrategy
   end
 
 
-
   def self.randomize
-    rand(3)
-  end
-
-  def self.strategy_by_number(number)
-    case number
-      when 0
-        random_strategy
-      when 1
-        item_based_cf_strategy
-      when 2
-        content_based_strategy
-      else
-        raise Exception
+    users = User.all
+    if users.length < 5
+      0
+    elsif users.length < 10
+      1
+    elsif users.length < 15
+      2
+    else
+      rand(3)
     end
   end
 
-end
+
+    def self.strategy_by_number(number)
+      case number
+        when 0
+          random_strategy
+        when 1
+          item_based_cf_strategy
+        when 2
+          content_based_strategy
+        else
+          raise Exception
+      end
+    end
+
+  end

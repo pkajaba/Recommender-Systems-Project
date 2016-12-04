@@ -12,8 +12,6 @@
 <div id="user_star"></div>
 <% end  %>
 
-<%= link_to 'Back', jokes_path, :class => "btn btn-default" %>
-
 <script>
   $('#user_star').raty({
     user_rating: <%= @rating.user_rating %>,

@@ -1,0 +1,33 @@
+<h1>Ratingy</h1>
+
+<h4> Počet: <%= @ratings.length %> </h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Vtip</th>
+      <th>Kategória</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+    <% @ratings.each do |rating| %>
+      <tr>
+        <td><%= rating.joke.id %></td>
+        <td><%= rating.joke.category.name %></td>
+        <td><%= rating.joke.category.id %></td>
+        <td><%= rating.user.name %></td>
+        <td><%= rating.user.id %></td>
+        <td><%#= link_to 'Show', joke, :class => "btn btn-default" %></td>
+        <td><%#= link_to 'Edit', edit_joke_path(joke), :class => "btn btn-default" %></td>
+        <td><%#= link_to 'Destroy', joke, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-default"%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%#= link_to 'New Joke', new_joke_path, :class => 'btn btn-info'%>

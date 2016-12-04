@@ -10,4 +10,9 @@ class RatingsController < ApplicationController
     end
   end
 
+  def index
+    #@ratings = Rating.find_by[user_id: current_user.id]
+    @ratings = Rating.all
+  end
+
 end

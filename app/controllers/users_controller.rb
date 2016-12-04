@@ -2,8 +2,12 @@ class UsersController < ApplicationController
   def show
     @categories = Category.all
     @category_hash = Hash.new {|h,k| h[k]=[]}
-    current_user.ratings do |rating|
-      @category_hash[rating.category.id] << rating.joke
+    user = User.find(current_user.id)
+    puts user.id
+    puts user.ratings.length
+    user.ratings.each do |rating|
+      @category_hash[rating.joke.category.id] << rating.joke
+      puts @category_hash[rating.joke.category.id]
     end
   end
 
