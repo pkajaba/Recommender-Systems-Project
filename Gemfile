@@ -57,3 +57,5 @@ gem 'exception_notification'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'bootstrap-generators', '~> 3.3.4'
+
+gem 'rails_12factor', group: :production
