@@ -8,7 +8,7 @@
   <%= @joke.category.name %>
 </p>
 
-<%= link_to recommend_joke_path do %>
+<%= link_to recommend_joke_path, :class => "star-wrapper" do %>
 <div id="user_star"></div>
 <% end  %>
 
