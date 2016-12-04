@@ -34,8 +34,8 @@ Politické pobavenie
 EOF
 end
 
-Category.delete_all
 Joke.delete_all
+Category.delete_all
 
 i = 0
 #Dir.glob('./db/seed_data/*.txt') do |rb_file|
@@ -52,7 +52,7 @@ end
 # i = 0
 # selected_categories = joke_categories.lines
 # selected_categories.each do |category|
-#   puts 'x' + category.chop! + 'x'
+#   puts category.chop!
 # end
 # allCategories = Category.all
 # allCategories.each do |category|
@@ -61,17 +61,24 @@ end
 #   if (selected_categories.include?(category.name))
 #     jokes = category.jokes.to_ary
 #     jokes.sort_by! {|joke| joke.content.length}
-#     jokes.take(20).each do |joke|
+#     jokes.take(10).each do |joke|
 #       File.open("db/filtered_data/#{i}.txt",'w') do |file|
 #       file.puts(joke.content)
 #       file.write(joke.category.name)
 #       i += 1
 #       end
 #     end
+#     jokes.last(10).each do |joke|
+#      File.open("db/filtered_data/#{i}.txt",'w') do |file|
+#       file.puts(joke.content)
+#       file.write(joke.category.name)
+#       i += 1
+#      end
+#     end
 #   end
 # end
-
-
+#
+#
 
 
 

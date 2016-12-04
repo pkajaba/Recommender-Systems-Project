@@ -1,5 +1,7 @@
 <h1>Vtipy</h1>
 
+<h4> Počet: <%= @jokes.length %> </h4>
+
 <table>
   <thead>
     <tr>
@@ -8,6 +10,7 @@
       <th colspan="3"></th>
     </tr>
   </thead>
+
 
   <tbody>
     <% @jokes.each do |joke| %>

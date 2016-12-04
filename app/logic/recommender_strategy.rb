@@ -1,9 +1,11 @@
 require 'random_strategy'
 require 'item_based_cf_strategy'
+require 'content_based_strategy'
 
 class RecommenderStrategy
   @@random_strategy = RandomStrategy.new
   @@item_based_cf_strategy = ItemBasedCFStrategy.new
+  @@content_based_strategy = ContentBasedStrategy.new
 
   def self.random_strategy
     @@random_strategy
@@ -13,8 +15,14 @@ class RecommenderStrategy
     @@item_based_cf_strategy
   end
 
+  def self.content_based_strategy
+    @@content_based_strategy
+  end
+
+
+
   def self.randomize
-    rand(2)
+    rand(3)
   end
 
   def self.strategy_by_number(number)
@@ -23,8 +31,10 @@ class RecommenderStrategy
         random_strategy
       when 1
         item_based_cf_strategy
+      when 2
+        content_based_strategy
       else
-        random_strategy
+        raise Exception
     end
   end
 

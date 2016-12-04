@@ -12,8 +12,13 @@
   <% @categories.each do |category| %>
       <tr>
         <td><%= category.name %></td>
-        <td><p class="nav navbar-text"><%= 'progress bar - kolko uz ohodnotil' %></p></td>
-        <td><p class="nav navbar-text"><%= 'priemerne hodnotenie' %></p></td>
+        <td>
+          <div class='progress'>
+            <div class="progress-bar" role="progressbar" style="width: <%= @category_hash[category.id].length / 20 * 100 %>%;">
+                progress
+            </div>
+          </div>
+        </td>
       </tr>
   <% end %>
   </tbody>

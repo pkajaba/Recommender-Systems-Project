@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   get 'recommend_joke' => 'jokes#recommend', as: 'recommend_joke'
 
-  get 'my_profile' => 'users#show', as: 'my_profile'
+  get 'profile' => 'users#show', as: 'profile'
   get 'about' => 'users#about', as: 'about'
 
   get 'login' => 'sessions#login', as: 'login'
