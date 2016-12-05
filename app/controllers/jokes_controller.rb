@@ -63,18 +63,22 @@ class JokesController < ApplicationController
   end
 
   def recommend
-    @joke = current_user.recommend_joke
-    @rating = Rating.create(joke_id: @joke.id, user_id: @current_user.id, user_rating: 0)
+    if current_user.nil?
+      redirect_to login_url, notice: 'You must login first.'
+    else
+      @joke = current_user.recommend_joke
+      @rating = Rating.create(joke_id: @joke.id, user_id: @current_user.id, user_rating: 0)
+    end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_joke
-      @joke = Joke.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_joke
+    @joke = Joke.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def joke_params
-      params.require(:joke).permit(:content, :category_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def joke_params
+    params.require(:joke).permit(:content, :category_id)
+  end
 end

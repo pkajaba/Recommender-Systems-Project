@@ -50,11 +50,6 @@ end
 #   Joke.create(content: joke_content, category_id: category.id)
 # end
 
-i = 0
-selected_categories = joke_categories.lines
-selected_categories.each do |category|
-  category.chop!
-end
 allCategories = Category.all
 allCategories.each do |category|
   print category.name + ' '
@@ -65,9 +60,9 @@ allCategories.each do |category|
 
     # find joke nearest under content.length 400 while there has to be at least 20 elements chosen
     positon = # position of joke nearest under content.length 500
-    #iterate from 20th element and find nearest content.length 500
+        #iterate from 20th element and find nearest content.length 500
 
-    puts step = (position / 20).floor # so that i take jokes by length equally
+        puts step = (position / 20).floor # so that i take jokes by length equally
     jokes.take(20, step).each do |joke|
       File.open("db/filtered_data/#{i}.txt", 'w') do |file|
         file.puts(joke.content)

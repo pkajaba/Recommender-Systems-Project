@@ -4,16 +4,16 @@
 
 <table>
   <thead>
-    <tr>
-      <th>Vtip</th>
-      <th>Kategória</th>
-      <th colspan="3"></th>
-    </tr>
+  <tr>
+    <th>Vtip</th>
+    <th>Kategória</th>
+    <th colspan="3"></th>
+  </tr>
   </thead>
 
 
   <tbody>
-    <% @jokes.each do |joke| %>
+  <% @jokes.each do |joke| %>
       <tr>
         <td><%= joke.content %></td>
         <td><%= joke.category.name if !(joke.category.nil?) %></td>
@@ -21,7 +21,7 @@
         <td><%#= link_to 'Edit', edit_joke_path(joke), :class => "btn btn-default" %></td>
         <td><%#= link_to 'Destroy', joke, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-default"%></td>
       </tr>
-    <% end %>
+  <% end %>
   </tbody>
 </table>
 
