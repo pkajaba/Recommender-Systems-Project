@@ -1,13 +1,17 @@
 class UsersController < ApplicationController
   def show
-    @categories = Category.all
-    @category_hash = Hash.new { |h, k| h[k]=[] }
-    user = User.find(current_user.id)
-    puts user.id
-    puts user.ratings.length
-    user.ratings.each do |rating|
-      @category_hash[rating.joke.category.id] << rating.joke
-      puts @category_hash[rating.joke.category.id]
+    if current_user.nil?
+      redirect_to login_url, notice: 'You must login first.'
+    else
+      @categories = Category.all
+      @category_hash = Hash.new { |h, k| h[k]=[] }
+      user = User.find(current_user.id)
+      puts user.id
+      puts user.ratings.length
+      user.ratings.each do |rating|
+        @category_hash[rating.joke.category.id] << rating.joke
+        puts @category_hash[rating.joke.category.id]
+      end
     end
   end
 
