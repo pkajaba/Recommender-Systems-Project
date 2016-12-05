@@ -1,0 +1,5 @@
+Predavač platní stojí na rebríku a ukladá platne do regálov. Príde zákazník a
+pýta sa:
+- Dobrý deň, máte Modré ruže od Dusíka?
+- Nie, iba modré gule od rebríka.
+V obchodoch

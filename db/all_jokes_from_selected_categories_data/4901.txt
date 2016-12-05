@@ -1,0 +1,6 @@
+Policajt sa pýta tuláka:
+- Kde bývate?
+- Nikde - odpovedá tulák.
+- A vy? - obráti sa policajt na druhého.
+- Tiež nikde, my sme susedia.
+Policajné inferno

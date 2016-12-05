@@ -1,0 +1,10 @@
+V obchode:
+Zákazník:
+- Čo je tamto? (ukazuje na regál)
+Predavač:
+- To sú jablká.
+- Tak mi dajte 40 jabĺk a každé mi zvlášť zabaľte. A čo je tamto?
+- To sú hrušky.
+- Tak mi ich dajte 50 a každú mi zvlášť zabaľte. A čo je tamto?
+- To je mak, ale nechcite ma naštvať!
+V obchodoch

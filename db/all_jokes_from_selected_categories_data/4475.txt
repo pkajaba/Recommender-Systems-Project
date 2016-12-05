@@ -1,0 +1,5 @@
+Bill Gates sa postaví pred zrkadlo a pýta sa:
+- Zrkadielko, povedz že mi, kto je najbohatší na svete?
+Na zrkadle sa objaví modrá tabuľka:
+\'Program MIRROR provedl neplatnou operaci a bude ukončen.\'
+Počítačové šialenstvo

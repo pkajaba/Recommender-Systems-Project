@@ -1,0 +1,11 @@
+Ide chlapík k jazeru a pod pazuchou nesie mačku. Druhý ho stretne a pýta sa:
+- Kam ideš?
+- Prať mačku.
+- Mačka sa prať nedá!
+- Mačka sa prať dá.
+- Mačka sa prať nedá!
+- Mačka sa prať dá!
+O chvíľu sa vracia, pod pazuchou zdochnutú mačku.
+- Veď som ti vravel, mačka sa prať nedá!
+- Mačka sa prať dá. Žmýkať sa nedá.
+Morbídne

@@ -1,0 +1,6 @@
+Ide žena po ulici v podnapitom stave. Zastaví ju policajt a vypýta si od nej
+občiansky preukaz. Pozrie sa na meno tej ženy a vráti jej preukaz.
+- Neporodili ste náhodou 25.5. pred tridsiatimi rokmi?
+- Áno, prečo?
+- Tak teda ahoj, mami!
+Policajné inferno

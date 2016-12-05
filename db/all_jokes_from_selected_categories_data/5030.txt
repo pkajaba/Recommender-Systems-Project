@@ -1,0 +1,16 @@
+Na políciu prijímajú nováčikov. Príde prvý za riaditeľom a riaditeľ sa pýta:
+- Vieš čítať?
+- Áno. A písať?
+- Nie.
+Riaditeľ ho vyhodí. Príde druhý. Riaditeľ sa pýta:
+- Vieš čítať?
+- Áno.
+- A písať?
+- Nie.
+Riaditeľ ho vyhodí. Príde tretí. Riaditeľ sa spytuje:
+- Vieš písať?
+- Áno.
+- A čítať?
+- Áno.
+- A naučíš ma to?
+Policajné inferno
