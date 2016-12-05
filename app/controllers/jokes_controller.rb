@@ -63,6 +63,9 @@ class JokesController < ApplicationController
   end
 
   def recommend
+    if current_user.nil?
+      redirect_to login_url, notice: 'You must login first.'
+    end
     @joke = current_user.recommend_joke
     @rating = Rating.create(joke_id: @joke.id, user_id: @current_user.id, user_rating: 0)
   end
