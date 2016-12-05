@@ -40,13 +40,13 @@ Category.delete_all
 i = 0
 #Dir.glob('./db/seed_data/*.txt') do |rb_file|
 Dir.glob('./db/filtered_data/*.txt') do |rb_file|
- puts i += 1
- content = File.read(rb_file).lines
- category_name = content.pop
- Category.create(name: category_name)
- category = Category.find_by(name: category_name)
- joke_content = content.join
- Joke.create(content: joke_content, category_id: category.id)
+  puts i += 1
+  content = File.read(rb_file).lines
+  category_name = content.pop
+  Category.create(name: category_name)
+  category = Category.find_by(name: category_name)
+  joke_content = content.join
+  Joke.create(content: joke_content, category_id: category.id)
 end
 
 # i = 0

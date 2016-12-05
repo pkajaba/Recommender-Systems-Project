@@ -17,7 +17,7 @@ class JokesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create joke" do
     assert_difference('Joke.count') do
-      post jokes_url, params: { joke: { category_id: @joke.category_id, content: @joke.content } }
+      post jokes_url, params: {joke: {category_id: @joke.category_id, content: @joke.content}}
     end
 
     assert_redirected_to joke_url(Joke.last)
@@ -34,7 +34,7 @@ class JokesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update joke" do
-    patch joke_url(@joke), params: { joke: { category_id: @joke.category_id, content: @joke.content } }
+    patch joke_url(@joke), params: {joke: {category_id: @joke.category_id, content: @joke.content}}
     assert_redirected_to joke_url(@joke)
   end
 

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def show
     @categories = Category.all
-    @category_hash = Hash.new {|h,k| h[k]=[]}
+    @category_hash = Hash.new { |h, k| h[k]=[] }
     user = User.find(current_user.id)
     puts user.id
     puts user.ratings.length
