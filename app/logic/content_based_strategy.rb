@@ -6,14 +6,9 @@ class ContentBasedStrategy
   def recommend_next
     preferring_factor = 3
 
-    case @user.rating.length
-      when 0..5
-        #daky shuffle na 5 skupin vtipov a vyber z tej ktora este nebola
-        joke = select_joke(select_category(preferring_factor), select_approximated_length())
-      else
-        #realne odporucaj podla hodnotenia jednotlivich v skupine
 
-    end
+
+
   end
 
   def select_category(preferring_factor = 1, prohibited_categories = [])

@@ -17,8 +17,8 @@ class RecommenderStrategy
     end
   end
 
-  def self.strategy_by_number(number, user)
-    case number
+  def self.strategy_by_number(user)
+    case user.strategy
       when 0
         RandomStrategy.new user
       when 1

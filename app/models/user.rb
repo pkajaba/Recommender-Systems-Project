@@ -25,7 +25,7 @@ class User < ApplicationRecord
 
   private
   def my_strategy
-    @strategy ||= RecommenderStrategy.strategy_by_number(self.strategy, user)
+    @strategy ||= RecommenderStrategy.strategy_by_number(self)
   end
 
   @strategy = nil
