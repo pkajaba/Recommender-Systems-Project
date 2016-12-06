@@ -39,9 +39,9 @@ class RecommenderStrategy
       when 0
         random_strategy
       when 1
-        item_based_cf_strategy
-      when 2
         content_based_strategy
+      when 2
+        item_based_cf_strategy
       else
         raise Exception
     end

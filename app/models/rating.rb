@@ -2,7 +2,7 @@ class Rating < ApplicationRecord
   belongs_to :joke
   belongs_to :user
 
-  def default_scope
-    order()
+  def self.default_scope
+    order(created_at: :desc)
   end
 end

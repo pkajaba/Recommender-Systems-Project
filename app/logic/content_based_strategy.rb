@@ -4,10 +4,14 @@ class ContentBasedStrategy
   end
 
   def recommend_next(user)
-    user.ratings
+    #have some groups of jokes dependant on length
+    case user.rating.length
+      when 0..5
+        #daky shuffle na 5 skupin vtipov a vyber z tej ktora este nebola
+      else
+        #realne odporucaj podla hodnotenia jednotlivich v skupine
+    end
 
-    jokes = Joke.all - user.jokes
-    jokes[rand(jokes.length)]
   end
 
 end

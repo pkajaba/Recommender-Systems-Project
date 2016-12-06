@@ -5,8 +5,13 @@
 <table>
   <thead>
   <tr>
-    <th>Vtip</th>
+    <th>Vtip id</th>
     <th>Kategória</th>
+    <th>Kategória id</th>
+    <th>Uzivatel</th>
+    <th>Uzivatel id</th>
+    <th>Rating create</th>
+    <th>Rating update</th>
     <th colspan="3"></th>
   </tr>
   </thead>
@@ -20,6 +25,8 @@
         <td><%= rating.joke.category.id %></td>
         <td><%= rating.user.name %></td>
         <td><%= rating.user.id %></td>
+        <td><%= rating.created_at %></td>
+        <td><%= rating.updated_at %></td>
         <td><%#= link_to 'Show', joke, :class => "btn btn-default" %></td>
         <td><%#= link_to 'Edit', edit_joke_path(joke), :class => "btn btn-default" %></td>
         <td><%#= link_to 'Destroy', joke, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-default"%></td>
