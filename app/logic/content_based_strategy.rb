@@ -27,8 +27,8 @@ class ContentBasedStrategy
       variance *= 2
     end
     category = select_category(preferring_factor, prohibited_categories) # find category
-    joke = find_joke_in_category(category, approximated_length, variance) # tryto find joke in category
-    joke ||= select_joke(preferring_factor, variance, approximated_length, prohibited_categories.push(category)) # if we didnt find go recursive without this category
+    find_joke_in_category(category, approximated_length, variance)  || #try to find suitable joke in category
+        select_joke(preferring_factor, variance, approximated_length, prohibited_categories.push(category)) # if we didnt find go recursive without this category
   end
 
   def select_category(preferring_factor = 1, prohibited_categories = [])
@@ -36,13 +36,14 @@ class ContentBasedStrategy
     user_prefered_categories = @user.user_prefer_categories.map { |upf| upf.category } # selects user rated categories
     user_average = @user.user_prefer_categories.inject(0) { |sum, x| sum + x.average_rate } / @user.user_prefer_categories.length.to_f # calculate average rating of user rated categories
 
+    # give every category change to get selected, amplify chances of above average user favourite categories
     evaluated_points = 0.0
     evaluated_categories = []
     possible_categories.each do |category|
       pos = user_prefered_categories.find_index(category)
       if pos
         category_average = @user.user_prefer_categories[pos].average_rate
-        if category_average > user_average
+        if category_average >= user_average
           evaluated_categories.push([category, evaluated_points + category_average * preferring_factor]) # to prefer categories above average
           evaluated_points += category_average * preferring_factor
         else
@@ -55,17 +56,16 @@ class ContentBasedStrategy
       end
     end
 
-    selected_category = nil
+    # simulates choosing category
     points = rand(evaluated_points.floor)
     evaluated_categories.bsearch_index { |x| x[1] > points } # to simulate choosing with different priorities
-    selected_category
   end
 
   def find_joke_in_category(category, approximated_length, variance)
     rated_jokes = @user.jokes.select { |joke| joke.category.id = category.id }
     all_jokes = category.jokes
     possible_jokes = all_jokes - rated_jokes
-    joke = possible_jokes.bsearch { |joke| approximated_length - approximated_length*variance <= joke.content.length <= approximated_length + approximated_length*variance }
+    possible_jokes.bsearch { |joke| approximated_length - approximated_length*variance <= joke.content.length <= approximated_length + approximated_length*variance }
   end
 
   #TODO ak odpovedal na vsekt vtipy tak zamrzneme
