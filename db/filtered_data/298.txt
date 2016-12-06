@@ -1,15 +1,9 @@
-Šéf hovorí sekretárke:
-- Katka, prosím ťa, prekopíruj mesačné dáta naším partnerom, oni sa pre ne za
-chvíľku zastavia.
-- Dobrý deň, vám mám prekopírovať tie dáta?
-- Dobrý deň, áno áno, prosím, tu máte disketu.
-- Ďakujem.
-Sekretárka strká disketu do mechaniky:
-# mkfs -t vfat -c /dev/fd0h1440
-# mount -t vfat -o iocharset=koi8-r, codepage=866 /dev/fd0 /mnt/floppy # find /
--noleaf -type f -name Otchet_april. [a-zA-Z] -exec cp { }; /mnt/floppy; # ls -la
-/mnt/floppy/Otchet_april. [a-z][A-Z] && sync && sleep 3
-- Tak a je to! - vracia disketu.
-Partneri na ňu nechápavo hladia.
-- Ach! Zasa som ju zabudla odmountovať?
-Počítačové šialenstvo
+Príde slečna do obchodu, kúpiť si šaty. Oblečie ich na seba a pýta sa predavača:
+- Pane, nezdá sa vám, že je ten výstrih veľký?
+Predavač na ňu pozrie a pýta sa:
+- Slečna, máte ochlpené prsia?
+Ona na neho udivene pozrie a rázne odpovie:
+- No dovoľte! Nie!
+A predavač na to:
+- Tak potom je ten výstrih veľký.
+V obchodoch
