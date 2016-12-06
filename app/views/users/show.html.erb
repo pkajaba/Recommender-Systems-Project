@@ -14,8 +14,8 @@
         <td><%= category.name %></td>
         <td>
           <div class='progress'>
-            <div class="progress-bar" role="progressbar" style="width: <%= @category_hash[category.id].length * 100 / 20 %>%">
-              progress
+            <div class="progress-bar progress-bar-success" role="progressbar" style="width: <%= @category_hash[category.id].length * 100 / 20 %>%">
+              <%= @category_hash[category.id].length * 100 / 20 %>%
             </div>
           </div>
         </td>

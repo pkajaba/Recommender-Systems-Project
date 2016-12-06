@@ -24,16 +24,16 @@ class UsersController < ApplicationController
     user = User.find_by(name: user_params[:name])
     if user != nil
       session[:user_id] = user.id
-      render :about
+      redirect_to recommend_joke_path, notice: 'Úspešne ste sa prihlásil :), hurá do hodnotenia.'
     else
       user = User.new(user_params)
       respond_to do |format|
         if user.save
           session[:user_id] = user.id
-          format.html { redirect_to root_path, notice: 'User was successfully created.' }
+          format.html { redirect_to recommend_joke_path, notice: 'Úspešne ste sa prihlásil :), hurá do hodnotenia.' }
           format.json { render :index, status: :created, location: @category }
         else
-          format.html { render :new }
+          format.html { edirect_to recommend_joke_path, notice: 'Uzivatel sa uspesne prihlasil' }
           format.json { render json: @category.errors, status: :unprocessable_entity }
         end
       end
