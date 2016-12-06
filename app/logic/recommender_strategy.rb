@@ -5,6 +5,7 @@ require 'content_based_strategy'
 class RecommenderStrategy
 
   def self.randomize
+    return 1
     users = User.all
     if users.length < 5
       0
@@ -13,6 +14,11 @@ class RecommenderStrategy
     elsif users.length < 15
       2
     else
+      strats = [0,0,0]
+      users.each do |user|
+        strats[user.strategy] += 1
+      end
+      return strats.find_index(strats.min) if strats.min + 1 < strats.max # trochu vyvazovania
       rand(3)
     end
   end
