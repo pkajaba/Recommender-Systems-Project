@@ -1,10 +1,10 @@
 class ItemBasedCFStrategy
-  def initialize
-
+  def initialize user
+    @user = user
   end
 
-  def recommend_next(user)
-    jokes = Joke.all - user.jokes
+  def recommend_next
+    jokes = Joke.all - @user.jokes
     jokes[rand(jokes.length)]
   end
 end

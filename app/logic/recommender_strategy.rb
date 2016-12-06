@@ -3,22 +3,6 @@ require 'item_based_cf_strategy'
 require 'content_based_strategy'
 
 class RecommenderStrategy
-  @@random_strategy = RandomStrategy.new
-  @@item_based_cf_strategy = ItemBasedCFStrategy.new
-  @@content_based_strategy = ContentBasedStrategy.new
-
-  def self.random_strategy
-    @@random_strategy
-  end
-
-  def self.item_based_cf_strategy
-    @@item_based_cf_strategy
-  end
-
-  def self.content_based_strategy
-    @@content_based_strategy
-  end
-
 
   def self.randomize
     users = User.all
@@ -33,15 +17,14 @@ class RecommenderStrategy
     end
   end
 
-
-  def self.strategy_by_number(number)
+  def self.strategy_by_number(number, user)
     case number
       when 0
-        random_strategy
+        RandomStrategy.new user
       when 1
-        content_based_strategy
+        ContentBasedStrategy.new user
       when 2
-        item_based_cf_strategy
+        ItemBasedCFStrategy.new user
       else
         raise Exception
     end

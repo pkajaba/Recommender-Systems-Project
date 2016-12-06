@@ -1,9 +1,9 @@
 class UserBasedCFStrategy
-  def initialize
-
+  def initialize user
+    @user = user
   end
 
-  def recommend_next(user)
+  def recommend_next
     user.ratings
   end
 end

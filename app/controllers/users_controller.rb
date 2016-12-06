@@ -1,3 +1,5 @@
+require_relative '../logic/recommender_strategy.rb'
+
 class UsersController < ApplicationController
   def show
     if current_user.nil?
@@ -27,6 +29,7 @@ class UsersController < ApplicationController
       redirect_to recommend_joke_path, notice: 'Úspešne ste sa prihlásil :), hurá do hodnotenia.'
     else
       user = User.new(user_params)
+      user.strategy = RecommenderStrategy.randomize
       respond_to do |format|
         if user.save
           session[:user_id] = user.id

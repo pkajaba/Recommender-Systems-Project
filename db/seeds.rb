@@ -96,6 +96,9 @@ def store_jokes_to_db(index)
 end
 
 
+
+
+
 #MAIN
 
 # 0 -> from filtered_data else from all_jokes_selected_categories
