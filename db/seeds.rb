@@ -95,8 +95,31 @@ def store_jokes_to_db(index)
   end
 end
 
-
-
+def analyze_data
+  total_length = 0
+  jokes = Joke.all.sort { |f, s| f.content.length <=> s.content.length }
+  length_categories = [[], [], [], [], []]
+  i = 0
+  jokes.each do |joke|
+    puts joke.content.length
+    i += 1
+    pos = (jokes.length - i) / (jokes.length / 5)
+    puts pos
+    #length_categories[pos] += 1
+    categor = length_categories[pos]
+    categor.push(joke)
+    total_length += joke.content.length
+  end
+  average_length = total_length / jokes.length
+  puts
+  puts jokes.length
+  puts average_length
+  puts
+  length_categories.each do |l|
+    puts l.first.content.length
+    puts l.last.content.length
+  end
+end
 
 
 #MAIN
@@ -105,5 +128,6 @@ end
 
 #create_filtered_data(20)
 store_jokes_to_db(0)
+#analyze_data
 
 
