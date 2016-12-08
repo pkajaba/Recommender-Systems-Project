@@ -1,0 +1,10 @@
+FROM fedora:latest
+RUN dnf install ruby-devel rubygem-rails make gcc redhat-rpm-config \
+postgresql-server postgresql-devel nodejs npm -y && dnf clean all && \
+gem install bundler
+RUN mkdir /jokes
+WORKDIR /jokes
+ADD Gemfile /jokes/Gemfile
+ADD Gemfile.lock /jokes/Gemfile.lock
+RUN bundle install
+ADD . /jokes
