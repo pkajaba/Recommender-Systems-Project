@@ -3,9 +3,8 @@ require_relative '../logic/recommender_strategy.rb'
 class UsersController < ApplicationController
   def show
     if current_user.nil?
-      redirect_to login_url, notice: 'You must login first.'
+      redirect_to login_url, notice: 'Musíš sa najprv prihlásiť'
     else
-      @categories = Category.all
       @category_hash = Hash.new { |h, k| h[k]=[] }
       user = User.find(current_user.id)
       puts user.id
@@ -14,6 +13,7 @@ class UsersController < ApplicationController
         @category_hash[rating.joke.category.id] << rating.joke
         puts @category_hash[rating.joke.category.id]
       end
+      @categories = Category.all.sort_by { |cat| @category_hash[cat.id].length }.reverse
     end
   end
 
@@ -26,17 +26,17 @@ class UsersController < ApplicationController
     user = User.find_by(name: user_params[:name])
     if user != nil
       session[:user_id] = user.id
-      redirect_to recommend_joke_path, notice: 'Úspešne ste sa prihlásil :), hurá do hodnotenia.'
+      redirect_to recommend_joke_path, notice: 'Úspešne si sa prihlásil :), hurá do hodnotenia.'
     else
       user = User.new(user_params)
       user.strategy = RecommenderStrategy.randomize
       respond_to do |format|
         if user.save
           session[:user_id] = user.id
-          format.html { redirect_to recommend_joke_path, notice: 'Úspešne ste sa prihlásil :), hurá do hodnotenia.' }
+          format.html { redirect_to recommend_joke_path, notice: 'Úspešne si sa prihlásil :), hurá do hodnotenia.' }
           format.json { render :index, status: :created, location: @category }
         else
-          format.html { edirect_to recommend_joke_path, notice: 'Uzivatel sa uspesne prihlasil' }
+          format.html { edirect_to recommend_joke_path, notice: 'Úspešne si sa prihlásil ' }
           format.json { render json: @category.errors, status: :unprocessable_entity }
         end
       end
