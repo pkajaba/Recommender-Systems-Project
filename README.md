@@ -10,7 +10,7 @@ Application is currently deployed [here][2].
 * [Deployment instructions](Deployment instructions)
 
 #### Docker setup
-For running in docker containers you have to first run `docker-compose up`. After this you have to also setup database in container this way:
+First replace config/database.yml with database-docker.yml. For running in docker containers you have to first run `docker-compose up`. After this you have to also setup database in container this way (in another terminal):
 `docker-compose run web rake db:migrate`. You can run any ruby related commands this way.
 
 #### System Dependencies

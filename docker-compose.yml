@@ -1,0 +1,19 @@
+version: '2'
+services:
+  db:
+    image: registry.centos.org/sclo/postgresql-94-centos7
+    environment:
+      POSTGRESQL_ADMIN_PASSWORD: postgres
+    ports:
+    - '5432'
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.jokes
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - ./:/jokes:z
+    ports:
+      - "3000:3000"
+    links:
+      - db
