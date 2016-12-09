@@ -5,7 +5,6 @@ require 'content_based_strategy'
 class RecommenderStrategy
 
   def self.randomize
-    return 1
     users = User.all
     if users.length < 5
       0
