@@ -13,6 +13,7 @@
     <th>Uzivatel strategia</th>
     <th>Rating create</th>
     <th>Rating update</th>
+    <th>Rating rate</th>
     <th colspan="3"></th>
   </tr>
   </thead>
@@ -29,6 +30,7 @@
         <td><%= rating.user.strategy %></td>
         <td><%= rating.created_at %></td>
         <td><%= rating.updated_at %></td>
+        <td><%= rating.user_rating %></td>
         <td><%#= link_to 'Show', joke, :class => "btn btn-default" %></td>
         <td><%#= link_to 'Edit', edit_joke_path(joke), :class => "btn btn-default" %></td>
         <td><%#= link_to 'Destroy', joke, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-default"%></td>

@@ -1,8 +1,8 @@
 class RatingsController < ApplicationController
 
   def update
-    @rating = Rating.find(params[:id])
-    @joke = @rating.joke
+    @joke = Joke.find(params[:id])
+    @rating = Rating.create(joke_id: @joke.id, user_id: current_user.id, user_rating: params[:user_rating])
 
     upf = UserPreferCategory.find_by(category_id: @joke.category.id, user_id: current_user.id)
     if upf
@@ -11,11 +11,11 @@ class RatingsController < ApplicationController
       UserPreferCategory.create(category_id: @joke.category.id, user_id: current_user.id, total_rated_jokes: 1, total_rate: params[:user_rating])
     end
 
-    if @rating.update_attributes(user_rating: params[:user_rating])
+    #if @rating.update_attributes(user_rating: params[:user_rating])
       respond_to do |format|
         format.js
       end
-    end
+    #end
   end
 
   def index
