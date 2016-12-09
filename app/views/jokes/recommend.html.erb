@@ -3,17 +3,18 @@
 
     <div class="col-md-12 col-md-offset-3">
       <p>
-        <strong>Vtip:</strong>
-        <%= simple_format(@joke.content) %>
-      </p>
-
-      <p>
         <strong>Kategória:</strong>
         <%= @joke.category.name %>
       </p>
 
+      <p>
+        <strong>Vtip:</strong>
+        <%= simple_format(@joke.content) %>
+      </p>
+
+      <strong>Hodnotenie: </strong>
         <%= link_to recommend_joke_path, :class => "star-wrapper" do %>
-          <div id="user_star"><strong>Hodnotenie: </strong></div>
+          <div id="user_star"></div>
         <% end %>
     </div>
   </div>
