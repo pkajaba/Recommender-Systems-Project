@@ -29,7 +29,12 @@ class UsersController < ApplicationController
       redirect_to recommend_joke_path, notice: 'Úspešne si sa prihlásil :), hurá do hodnotenia.'
     else
       user = User.new(user_params)
-      user.strategy = RecommenderStrategy.randomize
+      strategy = user_params[:strategy]
+      if strategy.nil?
+        user.strategy = RecommenderStrategy.randomize
+      else
+        user.strategy = strategy
+      end
       respond_to do |format|
         if user.save
           session[:user_id] = user.id
@@ -49,7 +54,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name)
+    params.require(:user).permit(:name, :strategy)
   end
 
 end
