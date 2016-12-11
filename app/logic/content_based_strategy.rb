@@ -124,7 +124,7 @@ class ContentBasedStrategy
     return @user.average if category_ratings.length == 0 && length_ratings.length == 0
     category_ratings_sum = category_ratings.inject(0) { |sum, x| sum + x.user_rating } * 3
     length_ratings_sum = length_ratings.inject(0) { |sum, x| sum + x.user_rating }
-    (category_ratings_sum + length_ratings_sum) / (3 * category_ratings.length + length_ratings.length)
+    (category_ratings_sum + length_ratings_sum) / (3 * category_ratings.length + length_ratings.length).to_f
   end
 
   private

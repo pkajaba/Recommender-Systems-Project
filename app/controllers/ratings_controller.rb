@@ -21,6 +21,7 @@ class RatingsController < ApplicationController
   def index
     #@ratings = Rating.find_by[user_id: current_user.id]
     @ratings = Rating.all
+    @rr = @ratings.map {|rating| [rating,PredictedRating.find_by(user_id: rating.user.id, joke_id: rating.joke.id)]}
   end
 
 end
