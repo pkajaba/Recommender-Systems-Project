@@ -56,8 +56,8 @@ class UserBasedCFStrategy
     product_sum = user_ratings.zip(other_user_ratings).map { |i, j| i*j }.inject(0, :+)
 
     #Computing of Pearson correlation coef.
-    numerator = product_sum - (user_ratings_sum * other_user_ratings_sum/n)
-    divider = Math.sqrt((square_sum1 - user_ratings_sum**2/n) * (square_sum2 - other_user_ratings_sum**2/n))
+    numerator = n*product_sum - (user_ratings_sum * other_user_ratings_sum)
+    divider = Math.sqrt((n*square_sum1 - user_ratings_sum**2) * (n*square_sum2 - other_user_ratings_sum**2))
     if divider == 0
       return 0
     end
