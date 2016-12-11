@@ -7,10 +7,11 @@ class UserBasedCFStrategy
     rankings = recommend_user_based
     if rankings.length == 0
       joke = recommend_random
+      predicted_rating = @user.average
     else
       joke, predicted_rating = rankings.first
-      PredictedRating.create(joke_id: joke.id, user_id: @user.id, predicted_rating: predicted_rating)
     end
+    PredictedRating.create(joke_id: joke.id, user_id: @user.id, predicted_rating: predicted_rating)
     joke
   end
 
