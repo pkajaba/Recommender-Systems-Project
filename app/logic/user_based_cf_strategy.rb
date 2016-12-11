@@ -23,12 +23,16 @@ class UserBasedCFStrategy
   def pearson_correlation(otherUser)
     #List of jokes rated by @user and otherUser
     commonJokes = Array.new
+    other_user_jokes = otherUser.jokes
+    user_ratings = Array.new
     @user.ratings.each do |rating|
       joke = rating.joke
-      if otherUser.jokes.include?(joke)
+      if other_user_jokes.include?(joke)
         commonJokes.push(joke.id)
+        user_ratings.push(rating.user_rating)
       end
     end
+    commonJokes = @user.jokes & other_user_jokes
 
     n = commonJokes.length
     if n == 0
@@ -36,7 +40,6 @@ class UserBasedCFStrategy
     end
 
     #find @user ratings and other_user ratings for common jokes
-    user_ratings=find_ratings(@user, commonJokes)
     other_user_ratings=find_ratings(otherUser, commonJokes)
 
     #should not happen but it happened :D
