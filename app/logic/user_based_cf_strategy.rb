@@ -58,8 +58,8 @@ class UserBasedCFStrategy
     product_sum = user_ratings.zip(other_user_ratings).map { |i, j| i*j }.inject(0, :+)
 
     #Computing of Pearson correlation coef.
-    numerator = n*product_sum - (user_ratings_sum * other_user_ratings_sum)
-    divider = Math.sqrt((n*square_sum1 - user_ratings_sum**2) * (n*square_sum2 - other_user_ratings_sum**2))
+    numerator = product_sum - (user_ratings_sum * other_user_ratings_sum/n)
+    divider = Math.sqrt((square_sum1 - user_ratings_sum**2/n) * (square_sum2 - other_user_ratings_sum**2/n))
     if divider == 0
       return 0
     end
@@ -84,7 +84,7 @@ class UserBasedCFStrategy
     User.all.each do |user|
       if user != @user
         sim = pearson_correlation(user)
-        if sim > 0
+        if sim != 0
           user.jokes.each do |joke|
             totals[joke] ||= 0
             similarity_sums[joke] ||= 0
