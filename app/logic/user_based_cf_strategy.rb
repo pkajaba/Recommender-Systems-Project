@@ -9,9 +9,9 @@ class UserBasedCFStrategy
       joke = recommend_random
     else
       joke, predicted_rating = rankings.first
+      PredictedRating.create(joke_id: joke.id, user_id: @user.id, predicted_rating: predicted_rating)
     end
-    {joke: joke, suggested_rating: 1}
-    #TODO:
+    joke
   end
 
   def recommend_random
@@ -37,6 +37,11 @@ class UserBasedCFStrategy
     #find @user ratings and other_user ratings for common jokes
     user_ratings=find_ratings(@user, commonJokes)
     other_user_ratings=find_ratings(otherUser, commonJokes)
+
+    #should not happen but it happened :D
+    if (user_ratings.length != other_user_ratings.length)
+      return 0
+    end
 
     #sum of all user and other_user ratings
     user_ratings_sum = user_ratings.inject(0, :+)

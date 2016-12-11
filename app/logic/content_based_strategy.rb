@@ -15,7 +15,8 @@ class ContentBasedStrategy
       approximated_length = select_approximated_length
     end
     joke = select_joke(variance, approximated_length, prohibited_categories)
-    {joke: joke, suggested_rating: suggest_rating(joke)}
+    PredictedRating.create(joke_id: joke.id, user_id: @user.id, predicted_rating: suggest_rating(joke))
+    joke
   end
 
   # Pokusi sa vybrat vtip z povolenych kategorii
@@ -66,7 +67,7 @@ class ContentBasedStrategy
     ratings = []
     @user.ratings.each do |rating|
       total_points += evaluate_rate(rating.user_rating)
-      ratings.push([rating,total_points])
+      ratings.push([rating, total_points])
     end
     points = rand(total_points.floor)
     index = ratings.bsearch_index { |x| x[1] >= points } #umozni najst spravny interval
@@ -105,7 +106,7 @@ class ContentBasedStrategy
     rated_jokes = @user.jokes.select { |joke| joke.category == category }
     all_jokes = category.jokes
     possible_jokes = all_jokes - rated_jokes
-    possible_jokes.sort! {|a,b| a.content.length <=> b.content.length}
+    possible_jokes.sort! { |a, b| a.content.length <=> b.content.length }
     # approximated_length - approximated_length*variance <= joke.content.length <= approximated_length + approximated_length*variance
     start_index = possible_jokes.bsearch_index { |joke| joke.content.length >= approximated_length - approximated_length*variance }
     return nil if start_index == nil
@@ -117,9 +118,9 @@ class ContentBasedStrategy
 
   def suggest_rating(joke)
     return 3 if @user.ratings.length == 0
-    category_ratings = @user.ratings.select {|rating| rating.joke.category = joke.category }
-    length_ratings = @user.ratings.select {|rating| rating.joke.content.length * 0.7 <= joke.content.length &&
-                                                    joke.content.length <= rating.joke.content.length * 1.3}
+    category_ratings = @user.ratings.select { |rating| rating.joke.category = joke.category }
+    length_ratings = @user.ratings.select { |rating| rating.joke.content.length * 0.7 <= joke.content.length &&
+        joke.content.length <= rating.joke.content.length * 1.3 }
     return @user.average if category_ratings.length == 0 && length_ratings.length == 0
     category_ratings_sum = category_ratings.inject(0) { |sum, x| sum + x.user_rating } * 3
     length_ratings_sum = length_ratings.inject(0) { |sum, x| sum + x.user_rating }
@@ -150,5 +151,4 @@ class ContentBasedStrategy
       number_of_rated_jokes / total_jokes - 0.7 # penalizujem 0-30% kategoriu s naplnenim nad 70%
     end
   end
-
 end
