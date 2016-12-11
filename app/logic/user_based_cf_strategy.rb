@@ -87,7 +87,7 @@ class UserBasedCFStrategy
             totals[joke] ||= 0
             similarity_sums[joke] ||= 0
             unless @user.jokes.include?(joke)
-              totals[joke] += find_rating(user, joke) * sim
+              totals[joke] += (find_rating(user, joke) - user.average) * sim
               similarity_sums[joke] += sim
             end
           end
@@ -99,7 +99,7 @@ class UserBasedCFStrategy
     rankings = Hash.new
     totals.each do |joke, sim_rating|
       if similarity_sums[joke] > 0
-        rankings[joke] = sim_rating/similarity_sums[joke]
+        rankings[joke] = @user.average + sim_rating/similarity_sums[joke]
       end
     end
     rankings.sort_by { |_joke, ranking| ranking }.reverse
