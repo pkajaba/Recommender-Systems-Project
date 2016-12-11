@@ -22,6 +22,8 @@ class ContentBasedStrategy
   # (prohibited_categories funguju pre ingorovanie urcitych kategorii -> napriklad kategorie posledne x hodnotenych vtipov
   #                                                                   -> napriklad kategoriu v ktorej nieje vtip urcitej dlzky +- variance
   def select_joke(variance, approximated_length, prohibited_categories = [])
+    puts '*****'
+    puts prohibited_categories.length
     if prohibited_categories.length > @all_categories.length * (0.3) #zvysim variance ak v 30% prehladanych kategoriach som nenasiel vtip s urcitou dlzkou
       variance *= 2
       prohibited_categories = categories_of_last_x_jokes(0.1)
@@ -103,7 +105,6 @@ class ContentBasedStrategy
     rated_jokes = @user.jokes.select { |joke| joke.category == category }
     all_jokes = category.jokes
     possible_jokes = all_jokes - rated_jokes
-    puts category.name
     possible_jokes.sort! {|a,b| a.content.length <=> b.content.length}
     # approximated_length - approximated_length*variance <= joke.content.length <= approximated_length + approximated_length*variance
     start_index = possible_jokes.bsearch_index { |joke| joke.content.length >= approximated_length - approximated_length*variance }
@@ -119,7 +120,7 @@ class ContentBasedStrategy
     category_ratings = @user.ratings.select {|rating| rating.joke.category = joke.category }
     length_ratings = @user.ratings.select {|rating| rating.joke.content.length * 0.7 <= joke.content.length &&
                                                     joke.content.length <= rating.joke.content.length * 1.3}
-    return @user.average if category_ratings.length == length_ratings.length == 0
+    return @user.average if category_ratings.length == 0 && length_ratings.length == 0
     category_ratings_sum = category_ratings.inject(0) { |sum, x| sum + x.user_rating } * 3
     length_ratings_sum = length_ratings.inject(0) { |sum, x| sum + x.user_rating }
     (category_ratings_sum + length_ratings_sum) / (3 * category_ratings.length + length_ratings.length)
