@@ -7,13 +7,11 @@ class UsersController < ApplicationController
     else
       @category_hash = Hash.new { |h, k| h[k]=[] }
       user = User.find(current_user.id)
-      puts user.id
-      puts user.ratings.length
       user.ratings.each do |rating|
         @category_hash[rating.joke.category.id] << rating.joke
-        puts @category_hash[rating.joke.category.id]
       end
       @categories = Category.all.sort_by { |cat| @category_hash[cat.id].length }.reverse
+      @cc = user.user_prefer_categories.sort_by {|upf| upf.total_rated_jokes }.reverse
     end
   end
 
