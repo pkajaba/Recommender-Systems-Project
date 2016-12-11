@@ -5,6 +5,6 @@ class RandomStrategy
 
   def recommend_next
     jokes = Joke.all - @user.jokes
-    jokes[rand(jokes.length)]
+    {joke: jokes[rand(jokes.length)], suggested_rating: @user.average}
   end
 end

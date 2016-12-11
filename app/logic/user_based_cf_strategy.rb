@@ -10,7 +10,8 @@ class UserBasedCFStrategy
     else
       joke, predicted_rating = rankings.first
     end
-    joke
+    {joke: joke, suggested_rating: 1}
+    #TODO:
   end
 
   def recommend_random

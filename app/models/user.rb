@@ -20,7 +20,12 @@ class User < ApplicationRecord
   end
 
   def recommend_joke
-    my_strategy.recommend_next()
+    my_strategy.recommend_next
+  end
+
+  def average
+    return 3 if self.ratings.length == 0
+    self.ratings.inject(0) { |sum, x| sum + x.user_rating } / self.ratings.length.to_f
   end
 
   private

@@ -14,7 +14,8 @@ class ContentBasedStrategy
       prohibited_categories = categories_of_last_x_jokes(0.1) # ignorujem kategorie posledne hodntenych x vtipov (viac v categories_of_last_x_jokes)
       approximated_length = select_approximated_length
     end
-    select_joke(variance, approximated_length, prohibited_categories)
+    joke = select_joke(variance, approximated_length, prohibited_categories)
+    {joke: joke, suggested_rating: suggest_rating(joke)}
   end
 
   # Pokusi sa vybrat vtip z povolenych kategorii
@@ -85,7 +86,7 @@ class ContentBasedStrategy
         category_average = @user.user_prefer_categories[category_position].average_rate
         total_points += evaluate_rate(category_average) * (1 - category_penalization(category, rated_jokes_in_category))
       else # pre este nehodnotene kategorie
-        total_points += evaluate_rate(user_average) * (1 - category_penalization(category, 0))
+        total_points += evaluate_rate(@user.average) * (1 - category_penalization(category, 0))
       end
       evaluated_categories.push([category, total_points])
     end
@@ -113,17 +114,16 @@ class ContentBasedStrategy
     possible_jokes[index]
   end
 
-  private
-  # vyratata priemerne uzivatelove hodnotenie
-  def user_average
-    @user.ratings.inject(0) { |sum, x| sum + x.user_rating } / @user.ratings.length.to_f
+  def suggest_rating(joke)
+    #TODO:
   end
 
+  private
   # vrati body podla hodnotenia -> umozni preferovanie vyssie hodnotenych vtipov/kategorii
   # evaluate_rate(1) average 3 -> 2, evaluate_rate(2) average 3 -> 10, evaluate_rate(3) average 3 -> 32, evaluate_rate(4) average 3 -> 78, evaluate_rate(5) average 3 -> 162
   # evaluate_rate(1) average 4 -> 0.x, evaluate_rate(3) average 4 -> 10, evaluate_rate(5) average 4 -> 78
   def evaluate_rate(rate) # ovplyvnuje sancu s akou sa dostane do vyberu
-    ((rate - user_average + 4) ** 4) / 8
+    ((rate - @user.average + 4) ** 4) / 8
   end
 
   # vrati kategorie poslednych x vtipov, x vyratam ako variance * pocet kategorii (variance = kolko percent)
