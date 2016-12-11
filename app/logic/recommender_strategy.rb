@@ -1,6 +1,6 @@
 require 'random_strategy'
-require 'item_based_cf_strategy'
 require 'content_based_strategy'
+require 'user_based_cf_strategy'
 
 class RecommenderStrategy
 
@@ -29,7 +29,7 @@ class RecommenderStrategy
       when 1
         ContentBasedStrategy.new user
       when 2
-        ItemBasedCFStrategy.new user
+        UserBasedCFStrategy.new user
       else
         raise Exception
     end
