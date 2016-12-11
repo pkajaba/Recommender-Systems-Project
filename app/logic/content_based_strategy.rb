@@ -115,7 +115,14 @@ class ContentBasedStrategy
   end
 
   def suggest_rating(joke)
-    #TODO:
+    return 3 if @user.ratings.length == 0
+    category_ratings = @user.ratings.select {|rating| rating.joke.category = joke.category }
+    length_ratings = @user.ratings.select {|rating| rating.joke.content.length * 0.7 <= joke.content.length &&
+                                                    joke.content.length <= rating.joke.content.length * 1.3}
+    return @user.average if category_ratings.length == length_ratings.length == 0
+    category_ratings_sum = category_ratings.inject(0) { |sum, x| sum + x.user_rating } * 3
+    length_ratings_sum = length_ratings.inject(0) { |sum, x| sum + x.user_rating }
+    (category_ratings_sum + length_ratings_sum) / (3 * category_ratings.length + length_ratings.length)
   end
 
   private
