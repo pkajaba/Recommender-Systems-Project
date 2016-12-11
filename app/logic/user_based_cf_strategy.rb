@@ -32,7 +32,6 @@ class UserBasedCFStrategy
         user_ratings.push(rating.user_rating)
       end
     end
-    commonJokes = @user.jokes & other_user_jokes
 
     n = commonJokes.length
     if n == 0
