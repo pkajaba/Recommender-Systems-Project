@@ -82,11 +82,11 @@ class UserBasedCFStrategy
       if s[:sim] != 0
         user = s[:user]
         sim = s[:sim]
-        (user.ratings - s[:common_ratings]).each do |rating|
-          totals[rating.joke_id] ||= 0
-          similarity_sums[rating.joke_id] ||= 0
-          totals[rating.joke_id] += (rating.user_rating - user.average) * sim
-          similarity_sums[rating.joke_id] += sim
+        (user.jokes - s[:common_ratings]).each do |joke|
+          totals[joke.id] ||= 0
+          similarity_sums[joke.id] ||= 0
+          totals[joke.id] += (find_rating(user,joke).user_rating - user.average) * sim
+          similarity_sums[joke.id] += sim
         end
       end
     end
