@@ -5,21 +5,7 @@ require 'user_based_cf_strategy'
 class RecommenderStrategy
 
   def self.randomize
-    users = User.all
-    if users.length < 5
-      0
-    elsif users.length < 10
-      1
-    elsif users.length < 15
-      2
-    else
-      strats = [0,0,0]
-      users.each do |user|
-        strats[user.strategy] += 1
-      end
-      return strats.find_index(strats.min) if strats.min + 1 < strats.max # trochu vyvazovania
-      rand(3)
-    end
+    (User.all.length % 2 ) + 1
   end
 
   def self.strategy_by_number(user)
