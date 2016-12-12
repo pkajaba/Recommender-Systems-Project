@@ -64,7 +64,7 @@ class JokesController < ApplicationController
 
   def recommend
     if current_user.nil?
-      redirect_to login_url, notice: 'You must login first.'
+      redirect_to root_path, notice: 'Najprv sa musíš prihlásiť cez facebook.'
     else
       @joke = current_user.recommend_joke
     end
