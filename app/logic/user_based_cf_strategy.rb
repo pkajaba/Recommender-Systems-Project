@@ -30,7 +30,8 @@ class UserBasedCFStrategy
     end
 
     #find @user ratings and other_user ratings for common jokes
-    other_user_ratings = find_ratings(otherUser, common_jokes).map { |rating| rating.user_rating }
+    our=find_ratings(otherUser, common_jokes)
+    other_user_ratings = our.map { |rating| rating.user_rating }
     user_ratings=find_ratings(@user, common_jokes).map { |rating| rating.user_rating }
 
     #should not happen but it happened :D
@@ -73,7 +74,7 @@ class UserBasedCFStrategy
     similarity_sums = Hash.new
     sims = (User.all - [@user]).map do |user|
       temp = pearson_correlation(user)
-      {sim: temp[0], user: user, common_jokes: temp[1]}
+      {sim: temp[0], user: user, common_ratings: temp[1]}
     end
 
     sims.sort! { |a, b| a[:sim] <=> b[:sim] }
@@ -81,11 +82,11 @@ class UserBasedCFStrategy
       if s[:sim] != 0
         user = s[:user]
         sim = s[:sim]
-        (user.jokes - s[:common_jokes]).each do |joke|
-          totals[joke.id] ||= 0
-          similarity_sums[joke.id] ||= 0
-          totals[joke.id] += (find_rating(user,joke).user_rating - user.average) * sim
-          similarity_sums[joke.id] += sim
+        (user.ratings - s[:common_ratings]).each do |rating|
+          totals[rating.joke_id] ||= 0
+          similarity_sums[rating.joke_id] ||= 0
+          totals[rating.joke_id] += (rating.user_rating - user.average) * sim
+          similarity_sums[rating.joke_id] += sim
         end
       end
     end
