@@ -56,7 +56,7 @@ class UserBasedCFStrategy
     if divider == 0
       return [0, []]
     end
-    [numerator/divider, common_jokes]
+    [numerator/divider, our]
   end
 
   def find_ratings(user, jokes)
