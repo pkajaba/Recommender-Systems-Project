@@ -140,5 +140,5 @@ end
 #save_some_csv
 #analyze_data
 
-store_jokes_to_db(0)
+#store_jokes_to_db(0)
 
