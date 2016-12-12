@@ -5,7 +5,7 @@ require 'user_based_cf_strategy'
 class RecommenderStrategy
 
   def self.randomize
-    (User.all.length % 2 ) + 1
+    2
   end
 
   def self.strategy_by_number(user)
