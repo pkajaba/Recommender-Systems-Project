@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'profile' => 'users#show', as: 'profile'
   get 'about' => 'users#about', as: 'about'
   get 'login' => 'users#login', as: 'login'
+  get 'ratings' => 'ratings#index', as: 'ratings'
 
 
 end
