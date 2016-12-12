@@ -26,7 +26,7 @@ class UserBasedCFStrategy
 
     n = common_jokes.length
     if n == 0
-      return [0,[]]
+      return [0, []]
     end
 
     #find @user ratings and other_user ratings for common jokes
@@ -36,7 +36,7 @@ class UserBasedCFStrategy
 
     #should not happen but it happened :D
     if (user_ratings.length != other_user_ratings.length)
-      return [0,[]]
+      return [0, []]
     end
 
     #sum of all user and other_user ratings
@@ -54,7 +54,7 @@ class UserBasedCFStrategy
     numerator = product_sum - (user_ratings_sum * other_user_ratings_sum/n)
     divider = Math.sqrt((square_sum1 - user_ratings_sum**2/n) * (square_sum2 - other_user_ratings_sum**2/n))
     if divider == 0
-      return [0,[]]
+      return [0, []]
     end
     [numerator/divider, our]
   end
@@ -79,13 +79,15 @@ class UserBasedCFStrategy
 
     sims.sort! { |a, b| a[:sim] <=> b[:sim] }
     sims.last(5).each do |s|
-      user = s[:user]
-      sim = s[:sim]
-      (user.ratings - s[:common_ratings]).each do |rating|
-        totals[rating.joke_id] ||= 0
-        similarity_sums[rating.joke_id] ||= 0
-        totals[rating.joke_id] += (rating.user_rating - user.average) * sim
-        similarity_sums[rating.joke_id] += sim
+      if s[:sim] != 0
+        user = s[:user]
+        sim = s[:sim]
+        (user.ratings - s[:common_ratings]).each do |rating|
+          totals[rating.joke_id] ||= 0
+          similarity_sums[rating.joke_id] ||= 0
+          totals[rating.joke_id] += (rating.user_rating - user.average) * sim
+          similarity_sums[rating.joke_id] += sim
+        end
       end
     end
 
