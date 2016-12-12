@@ -6,6 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+require 'csv'
+
 def joke_categories
   <<EOF
 Otázky a odpovede
@@ -121,13 +123,22 @@ def analyze_data
   end
 end
 
+def save_some_csv
+  CSV.open("data.csv", "wb") do |csv|
+    Joke.all.each do |joke|
+      csv << [joke.content.length, joke.category.name]
+    end
+  end
+end
+
 
 #MAIN
 
 # 0 -> from filtered_data else from all_jokes_selected_categories
 
 #create_filtered_data(20)
-store_jokes_to_db(0)
+save_some_csv
 #analyze_data
 
+#store_jokes_to_db(0)
 
