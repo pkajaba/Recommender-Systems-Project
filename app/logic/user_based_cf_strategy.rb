@@ -63,7 +63,7 @@ class UserBasedCFStrategy
   end
 
   def find_rating(user, joke)
-    ratings = Rating.select('user_rating').where(:user_id => user.id).where(:joke_id => joke.id)
+    ratings = Rating.where(:user_id => user.id).where(:joke_id => joke.id)
                   .map { |rating| rating.user_rating }
     ratings.first
   end
