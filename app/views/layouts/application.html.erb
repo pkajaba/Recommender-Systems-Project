@@ -39,7 +39,7 @@
             <!--p class="nav navbar-text"><%= current_user.name %></p>
             <!--<li><%= link_to current_user.name, '#' %></li>-->
             <li><%= link_to current_user.name, profile_path %></li>
-            <li><%= link_to "Odhlásiť sa", login_path, id: "sign_out" %></li>
+            <li><%= link_to "Odhlásiť sa", signout_path, id: "sign_out" %></li>
         <% else %>
             <li><%= link_to "Prihlásiť sa cez Facebook", "/auth/facebook", id: "sign_in" %></li>
         <% end %>
