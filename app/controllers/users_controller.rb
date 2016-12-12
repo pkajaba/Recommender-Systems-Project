@@ -27,12 +27,7 @@ class UsersController < ApplicationController
       redirect_to recommend_joke_path, notice: 'Úspešne si sa prihlásil :), hurá do hodnotenia.'
     else
       user = User.new(user_params)
-      strategy = user_params[:strategy]
-      if strategy.nil?
-        user.strategy = RecommenderStrategy.randomize
-      else
-        user.strategy = strategy
-      end
+      user.strategy = RecommenderStrategy.randomize
       respond_to do |format|
         if user.save
           session[:user_id] = user.id
