@@ -10,6 +10,7 @@ class UserBasedCFStrategy
       predicted_rating = @user.average
     else
       joke, predicted_rating = rankings.first
+      joke = Joke.find(joke)
     end
     PredictedRating.create(joke_id: joke.id, user_id: @user.id, predicted_rating: predicted_rating)
     joke
@@ -21,29 +22,21 @@ class UserBasedCFStrategy
   end
 
   def pearson_correlation(otherUser)
-    #List of jokes rated by @user and otherUser
-    commonJokes = Array.new
-    other_user_jokes = otherUser.jokes
-    user_ratings = Array.new
-    @user.ratings.each do |rating|
-      joke = rating.joke
-      if other_user_jokes.include?(joke)
-        commonJokes.push(joke.id)
-        user_ratings.push(rating.user_rating)
-      end
-    end
+    common_jokes = @user.jokes & otherUser.jokes
 
-    n = commonJokes.length
+    n = common_jokes.length
     if n == 0
-      return 0
+      return [0,[]]
     end
 
     #find @user ratings and other_user ratings for common jokes
-    other_user_ratings=find_ratings(otherUser, commonJokes)
+    our=find_ratings(otherUser, common_jokes)
+    other_user_ratings = our.map { |rating| rating.user_rating }
+    user_ratings=find_ratings(@user, common_jokes).map { |rating| rating.user_rating }
 
     #should not happen but it happened :D
     if (user_ratings.length != other_user_ratings.length)
-      return 0
+      return [0,[]]
     end
 
     #sum of all user and other_user ratings
@@ -61,15 +54,14 @@ class UserBasedCFStrategy
     numerator = product_sum - (user_ratings_sum * other_user_ratings_sum/n)
     divider = Math.sqrt((square_sum1 - user_ratings_sum**2/n) * (square_sum2 - other_user_ratings_sum**2/n))
     if divider == 0
-      return 0
+      return [0,[]]
     end
 
-    numerator/divider
+    [numerator/divider, other_user_ratings]
   end
 
   def find_ratings(user, jokes)
-    Rating.select('user_rating').where(:user_id => user.id).where(:joke_id => jokes)
-        .map { |rating| rating.user_rating }
+    Rating.where(:user_id => user.id).where(:joke_id => jokes)
   end
 
   def find_rating(user, joke)
@@ -81,27 +73,28 @@ class UserBasedCFStrategy
   def recommend_user_based
     totals = Hash.new
     similarity_sums = Hash.new
-    User.all.each do |user|
-      if user != @user
-        sim = pearson_correlation(user)
-        if sim != 0
-          user.jokes.each do |joke|
-            totals[joke] ||= 0
-            similarity_sums[joke] ||= 0
-            unless @user.jokes.include?(joke)
-              totals[joke] += (find_rating(user, joke) - user.average) * sim
-              similarity_sums[joke] += sim
-            end
-          end
-        end
+    sims = (User.all - [@user]).map do |user|
+      temp = pearson_correlation(user)
+      {sim: temp[0], user: user, common_ratings: temp[1]}
+    end
+
+    sims.sort! { |a, b| a[:sim] <=> b[:sim] }
+    sims.last(5).each do |s|
+      user = s[:user]
+      sim = s[:sim]
+      (user.ratings - s[:common_ratings]).each do |rating|
+        totals[rating.joke_id] ||= 0
+        similarity_sums[rating.joke_id] ||= 0
+        totals[rating.joke_id] += (rating.user_rating - user.average) * sim
+        similarity_sums[rating.joke_id] += sim
       end
     end
 
     #Make a prediction
     rankings = Hash.new
-    totals.each do |joke, sim_rating|
-      if similarity_sums[joke] > 0
-        rankings[joke] = @user.average + sim_rating/similarity_sums[joke]
+    totals.each do |joke_id, sim_rating|
+      if similarity_sums[joke_id] > 0
+        rankings[joke_id] = @user.average + sim_rating/similarity_sums[joke_id]
       end
     end
     rankings.sort_by { |_joke, ranking| ranking }.reverse
