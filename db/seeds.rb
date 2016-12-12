@@ -137,8 +137,8 @@ end
 # 0 -> from filtered_data else from all_jokes_selected_categories
 
 #create_filtered_data(20)
-save_some_csv
+#save_some_csv
 #analyze_data
 
-#store_jokes_to_db(0)
+store_jokes_to_db(0)
 
