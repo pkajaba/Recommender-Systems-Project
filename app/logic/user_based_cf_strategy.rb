@@ -26,7 +26,7 @@ class UserBasedCFStrategy
 
     n = common_jokes.length
     if n == 0
-      return [0, []]
+      return [0, common_jokes]
     end
 
     #find @user ratings and other_user ratings for common jokes
@@ -35,7 +35,7 @@ class UserBasedCFStrategy
 
     #should not happen but it happened :D
     if (user_ratings.length != other_user_ratings.length)
-      return [0, []]
+      return [0, common_jokes]
     end
 
     #sum of all user and other_user ratings
@@ -54,7 +54,7 @@ class UserBasedCFStrategy
     # there might be an issue because this value is not meant to be negative
     divider = Math.sqrt(((square_sum1 - user_ratings_sum**2/n) * (square_sum2 - other_user_ratings_sum**2/n)).abs)
     if divider == 0
-      return [0, []]
+      return [0, common_jokes]
     end
     [numerator/divider, common_jokes]
   end
