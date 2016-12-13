@@ -29,19 +29,15 @@ class UserBasedCFStrategy
       return [0, common_jokes]
     end
 
-    puts common_jokes.length
     #find @user ratings and other_user ratings for common jokes
     other_user_ratings = find_ratings(otherUser, common_jokes).map { |rating| rating.user_rating }
     user_ratings=find_ratings(@user, common_jokes).map { |rating| rating.user_rating }
 
-    puts other_user_ratings.length
-    puts user_ratings.length
     #should not happen but it happened :D
     if (user_ratings.length != other_user_ratings.length)
       return [0, common_jokes]
     end
 
-    puts common_jokes.length
     #sum of all user and other_user ratings
     user_ratings_sum = user_ratings.inject(0, :+)
     other_user_ratings_sum = other_user_ratings.inject(0, :+)
