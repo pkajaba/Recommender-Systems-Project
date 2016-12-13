@@ -51,7 +51,8 @@ class UserBasedCFStrategy
 
     #Computing of Pearson correlation coef.
     numerator = product_sum - (user_ratings_sum * other_user_ratings_sum/n)
-    divider = Math.sqrt((square_sum1 - user_ratings_sum**2/n) * (square_sum2 - other_user_ratings_sum**2/n))
+    # there might be an issue because this value is not meant to be negative
+    divider = Math.sqrt(((square_sum1 - user_ratings_sum**2/n) * (square_sum2 - other_user_ratings_sum**2/n)).abs)
     if divider == 0
       return [0, []]
     end
