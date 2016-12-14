@@ -75,10 +75,6 @@ def create_filtered_data(jokes_per_category)
 end
 
 def store_jokes_to_db(index)
-  Rating.delete_all
-  Joke.delete_all
-  Category.delete_all
-
   i = 0
   path = case index
            when 0
@@ -108,8 +104,8 @@ def analyze_data
     pos = (jokes.length - i) / (jokes.length / 5)
     puts pos
     #length_categories[pos] += 1
-    categor = length_categories[pos]
-    categor.push(joke)
+    category = length_categories[pos]
+    category.push(joke)
     total_length += joke.content.length
   end
   average_length = total_length / jokes.length
@@ -123,22 +119,102 @@ def analyze_data
   end
 end
 
-def save_some_csv
-  CSV.open("data.csv", "wb") do |csv|
+def evaluate_rate(rating, min, max)
+  return 0 if rating - min < 0.1
+  (rating-min) / (max-min)
+end
+
+def normalize_rating(rating, average)
+  rating - average
+end
+
+def csv_jokes_length_in_categories
+  CSV.open('../graphs/csv_jokes_length_in_categories.csv', 'wb') do |csv|
     Joke.all.each do |joke|
       csv << [joke.content.length, joke.category.name]
     end
   end
 end
 
+def csv_category_popularity
+  CSV.open('csv_category_popularity.csv', 'wb') do |csv|
+    categories = Category.all.map { |category| [category.id, [0, 0]] }
+    categories = Hash[categories.map { |key, value| [key, value] }]
+    User.all.each do |user|
+      upcs = user.user_prefer_categories.select { |upc| upc.total_rated_jokes >= 2 }
+      if upcs == []
+        puts user.name
+        next
+      end
+      upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
+      min = upcs.first.average_rate
+      max = upcs.last.average_rate
+      upcs.each do |upc|
+        categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
+        categories[upc.category.id][1] += 1
+      end
+    end
+    categories.each do |key, value|
+      csv << [Category.find(key).name, (value[0]/value[1].to_f).to_s]
+    end
+  end
+end
+
+def csv_users_categories_normalized
+  CSV.open('csv_categories_normalized_rating.csv', 'wb') do |csv|
+    users = User.all.map {|user| user}
+    users.sort! { |user| user.ratings.length }
+    users.take(10).each do |user|
+      categories = Category.all.map { |category| [category.id, [0, 0]] }
+      categories = Hash[categories.map { |key, value| [key, value] }]
+      upcs = user.user_prefer_categories.select { |upc| upc.total_rated_jokes >= 2 }
+      if upcs == []
+        puts user.name
+        next
+      end
+      upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
+      min = upcs.first.average_rate
+      max = upcs.last.average_rate
+      upcs.each do |upc|
+        categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
+        categories[upc.category.id][1] += 1
+      end
+      categories.each do |key, value|
+        csv << [Category.find(key).name, (value[0]/value[1].to_f).to_s]
+      end
+    end
+  end
+end
+
+
+def best_joke
+  CSV.open('best_joke.csv', 'wb') do |csv|
+    categories = Category.all.map { |category| [category.id, [0, 0]] }
+    categories = Hash[categories.map { |key, value| [key, value] }]
+    User.all.each do |user|
+      upcs = user.ratings
+      upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
+      min = upcs.first.average_rate
+      max = upcs.last.average_rate
+      upcs.each do |upc|
+        categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
+        categories[upc.category.id][1] += 1
+      end
+    end
+    categories.each do |key, value|
+      puts Category.find(key).name + ',' + (value[0]/value[1].to_f).to_s
+    end
+  end
+end
+
 
 #MAIN
-
-# 0 -> from filtered_data else from all_jokes_selected_categories
-
 #create_filtered_data(20)
 #save_some_csv
 #analyze_data
 
-#store_jokes_to_db(0)
+
+csv_users_categories_normalized
+
+
 
