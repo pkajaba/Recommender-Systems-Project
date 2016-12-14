@@ -281,7 +281,7 @@ def strategies
       ratings = user.ratings.select {|a| a}
       ratings = ratings.sort_by! { |a| a.id }
       user_average = user.average
-      i = 0
+      i = 1
       ratings.each do |rating|
         if user.strategy == 0
           array0[i][0] += rating.user_rating
@@ -297,6 +297,16 @@ def strategies
       end
 
     end
+
+    699.times do |i|
+      array0[i][0] += array0[i-1][0]
+      array0[i][1] += array0[i-1][1]
+      array1[i][0] += array1[i-1][0]
+      array1[i][1] += array1[i-1][1]
+      array2[i][0] += array2[i-1][0]
+      array2[i][1] += array2[i-1][1]
+    end
+
     700.times do |i|
       a1 = 0
       a1 = array0[i][0]/array0[i][1].to_f if array0[i][0] != 0
