@@ -141,7 +141,7 @@ def csv_jokes_length_in_categories
 end
 
 def csv_category_popularity
-  #CSV.open('../graphs/csv_category_popularity.csv', 'wb') do |csv|
+  CSV.open('csv_category_popularity.csv', 'wb') do |csv|
     categories = Category.all.map { |category| [category.id, [0, 0] ] }
     categories = Hash[categories.map {|key, value| [key, value]}]
     User.all.each do |user|
@@ -161,11 +161,11 @@ def csv_category_popularity
     categories.each do |key, value|
       puts Category.find(key).name + ',' + (value[0]/value[1].to_f).to_s
     end
-  #end
+  end
 end
 
 def csv_users_categories_normalized
-  #CSV.open('../graphs/csv_categories_normalized_rating.csv', 'wb') do |csv|
+  CSV.open('csv_categories_normalized_rating.csv', 'wb') do |csv|
     users = User.all.each.sort! {|user| user.ratings.length}
     users.take(10).each do |user|
       categories = Category.all.map { |category| [category.id, [0, 0] ] }
@@ -186,7 +186,11 @@ def csv_users_categories_normalized
         puts Category.find(key).name + ',' +(value[0]/value[1].to_f).to_s
       end
     end
-  #end
+  end
+end
+
+def best_joke
+
 end
 
 #MAIN
