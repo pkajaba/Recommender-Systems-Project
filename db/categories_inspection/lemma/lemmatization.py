@@ -49,24 +49,45 @@ for c in os.listdir(path):
           break
 
     jokes_sets = []
+    joks = set()
+    for res in sorted(category_result['total'], key=category_result['total'].get, reverse=True):
+        joks.add(res)
+        #if len(joks):
+        #    break
+    cccc[c] = joks
+
+
+for i in cccc.keys():
+    print("\'{}\' ".format(i), end="")
+
+print('\n')
+for i in cccc.keys():
+    print("\'{}\' ".format(i), end="")
+    for j in cccc.keys():
+        print('{} '.format(dice(cccc[i], cccc[j])), end="")
+    print('')
+
+
+
+
     #for j in category_result['joke_keywords']:
     #    for i in category_result['joke_keywords']:
 
-    for j in category_result['joke_keywords']:
-        s = set()
-        for res in sorted(j, key=j.get, reverse=True):
-            s.add(res)
-            if len(s) > 2:
-                break
-        jokes_sets.append(s)
-    average = 0
-    count = 0
-    for i in jokes_sets:
-        for j in jokes_sets:
-            print(i,j, dice(i,j))
-            average += dice(i,j)
-            count += 1
-    print(c, average/count)
+    #for j in category_result['joke_keywords']:
+    #    s = set()
+    #    for res in sorted(j, key=j.get, reverse=True):
+    #        s.add(res)
+    #        if len(s) > 5:
+    #            break
+    #    jokes_sets.append(s)
+
+    #average = 0
+    #count = 0
+    #for i in jokes_sets:
+    #    for j in jokes_sets:
+    #        average += dice(i,j)
+    #        count += 1
+    #print('{},{}'.format(c, average/count))
     #cccc[c] = jokes_sets
 
 
