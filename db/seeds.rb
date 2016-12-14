@@ -209,15 +209,15 @@ end
 def users_similarities
   CSV.open('users_similarities.csv', 'wb') do |csv|
     users = user_all
-    similarities = Hash.new
+    csv << user_all.map {|user| user.id}
     users.each do |user|
+      array = ['##',user.id]
       users.each do |otherUser|
-        if similarities[[user.id, otherUser.id]] == nil && similarities[[otherUser.id, user.id]] == nil
-          similarities[[user.id, otherUser.id]] = pearson(user, otherUser)
-        end
+          # similarities[[user.id, otherUser.id]] = pearson(user, otherUser)
+          array.push(pearson(user, otherUser))
       end
+      csv<<array
     end
-    similarities.each_pair { |key, value| csv << [key,value] }
   end
 end
 
