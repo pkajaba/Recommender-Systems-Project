@@ -181,15 +181,15 @@ def csv_users_categories_normalized
         categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
         categories[upc.category.id][1] += 1
       end
-      categories = categories.delete_if {|_k,v| v[0] == 0}
-      categories = categories.sort_by {|_k,v| v[0]/v[1]}
+      categories = categories.delete_if { |_k, v| v[0] == 0 }
+      categories = categories.sort_by { |_k, v| v[0]/v[1] }
 
       key, value = categories.first
       ex.push(value[0]/value[1])
-      ex.push(evaluate_rate(user.average,min,max))
+      ex.push(evaluate_rate(user.average, min, max))
       key, value = categories.last
       ex.push(value[0]/value[1])
-        csv << ex
+      csv << ex
     end
   end
 end
@@ -217,12 +217,12 @@ end
 def users_similarities
   CSV.open('users_similarities.csv', 'wb') do |csv|
     users = user_all
-    csv << user_all.map {|user| user.id}
+    csv << user_all.map { |user| user.id }
     users.each do |user|
-      array = ['##',user.id]
+      array = ['##', user.id]
       users.each do |otherUser|
-          # similarities[[user.id, otherUser.id]] = pearson(user, otherUser)
-          array.push(pearson(user, otherUser))
+        # similarities[[user.id, otherUser.id]] = pearson(user, otherUser)
+        array.push(pearson(user, otherUser))
       end
       csv<<array
     end
@@ -267,7 +267,47 @@ def find_ratings(user, jokes)
 end
 
 def user_all
-  User.all.select {|user| user.ratings.length > 10}
+  User.all.select { |user| user.ratings.length > 10 }
+end
+
+def strategies
+  CSV.open('strategies.csv', 'wb') do |csv|
+
+    users = user_all
+    array0 = Array.new(700) { [0, 0] }
+    array1 = Array.new(700) { [0, 0] }
+    array2 = Array.new(700) { [0, 0] }
+    users.each do |user|
+      ratings = user.ratings.select {|a| a}
+      ratings = ratings.sort_by! { |a| a.id }
+      user_average = user.average
+      i = 0
+      ratings.each do |rating|
+        if user.strategy == 0
+          array0[i][0] += rating.user_rating
+          array0[i][1] += 1
+        elsif user.strategy == 1
+          array1[i][0] += rating.user_rating
+          array1[i][1] += 1
+        else
+          array2[i][0] += rating.user_rating
+          array2[i][1] += 1
+        end
+        i+=1
+      end
+
+    end
+    700.times do |i|
+      a1 = 0
+      a1 = array0[i][0]/array0[i][1].to_f if array0[i][0] != 0
+      a2 = 0
+      a2 = array1[i][0]/array1[i][1].to_f if array1[i][0] != 0
+      a3 = 0
+      a3 = array2[i][0]/array2[i][1].to_f if array2[i][0] != 0
+      csv << [a1,a2,a3]
+    end
+
+  end
 end
 
 #MAIN
@@ -277,6 +317,5 @@ end
 
 #csv_category_popularity
 #users_similarities
-csv_users_categories_normalized
 
-
+strategies
