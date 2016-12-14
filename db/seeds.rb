@@ -185,8 +185,6 @@ def csv_users_categories_normalized
     end
   end
 end
-
-
 def best_joke
   CSV.open('best_joke.csv', 'wb') do |csv|
     categories = Category.all.map { |category| [category.id, [0, 0]] }
@@ -207,14 +205,66 @@ def best_joke
   end
 end
 
+def users_similarities
+  users = User.all
+  similarities = Hash.new
+  users.each do |user|
+    users.each do |otherUser|
+      if similarities[[user.id, otherUser.id]] == nil && similarities[[otherUser.id, user.id]] == nil
+        similarities[[user.id, otherUser.id]] = pearson(user, otherUser)
+      end
+    end
+  end
+  similarities.each_pair {|key,value| puts "#{key} = #{value}"}
+end
+
+def pearson(user, otherUser)
+  common_jokes = user.jokes & otherUser.jokes
+  n = common_jokes.length
+  if n == 0
+    return 0
+  end
+
+  other_user_ratings_raw = find_ratings(otherUser, common_jokes)
+  user_ratings_raw = find_ratings(user, common_jokes)
+  other_user_ratings = other_user_ratings_raw.uniq {|rating| rating.joke_id}
+  user_ratings = user_ratings_raw.uniq {|rating| rating.joke_id}
+  other_user_ratings = other_user_ratings.map { |rating| rating.user_rating }
+  user_ratings = user_ratings.map { |rating| rating.user_rating }
+  if user.id == 10
+    binding.pry
+    print user_ratings
+  end
+  #should not happen but it happened :D
+  if (user_ratings.length != other_user_ratings.length)
+    return 0
+  end
+
+  numerator = user_ratings.zip(other_user_ratings).map { |i, j| (i- user.average)*(j-otherUser.average)}
+                   .inject(0, :+)
+  divider_user = other_user_ratings.map {
+      |rating| (rating- otherUser.average)**2}.inject(0, :+)
+  divider_other = user_ratings.map {
+      |rating| (rating- user.average)**2}.inject(0, :+)
+
+  divider = Math.sqrt(divider_user)*Math.sqrt(divider_other)
+
+  if divider == 0
+    return 0
+  end
+  numerator/divider
+end
+
+def find_ratings(user, jokes)
+  Rating.where(:user_id => user.id).where(:joke_id => jokes)
+end
 
 #MAIN
 #create_filtered_data(20)
 #save_some_csv
 #analyze_data
 
-
-csv_users_categories_normalized
-
+#csv_category_popularity
+users_similarities
 
 

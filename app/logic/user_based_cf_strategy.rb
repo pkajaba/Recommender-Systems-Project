@@ -30,29 +30,24 @@ class UserBasedCFStrategy
     end
 
     #find @user ratings and other_user ratings for common jokes
-    other_user_ratings = find_ratings(otherUser, common_jokes).map { |rating| rating.user_rating }
-    user_ratings=find_ratings(@user, common_jokes).map { |rating| rating.user_rating }
-
+    other_user_ratings_raw = find_ratings(otherUser, common_jokes).map { |rating| rating.user_rating }
+    user_ratings_raw = find_ratings(@user, common_jokes).map { |rating| rating.user_rating }
+    other_user_ratings = other_user_ratings_raw.uniq {|rating| rating.joke.id}
+    user_ratings = user_ratings_raw.uniq {|rating| rating.joke.id}
     #should not happen but it happened :D
     if (user_ratings.length != other_user_ratings.length)
       return [0, common_jokes]
     end
+    
+    numerator = user_ratings.zip(other_user_ratings).map { |i, j| (i- user.average)*(j-otherUser.average)}
+                    .inject(0, :+)
+    divider_user = other_user_ratings.map {
+        |rating| (rating- otherUser.average)**2}.inject(0, :+)
+    divider_other = user_ratings.map {
+        |rating| (rating- user.average)**2}.inject(0, :+)
 
-    #sum of all user and other_user ratings
-    user_ratings_sum = user_ratings.inject(0, :+)
-    other_user_ratings_sum = other_user_ratings.inject(0, :+)
+    divider = Math.sqrt(divider_user)*Math.sqrt(divider_other)
 
-    #Sum of the squares of the ratings
-    square_sum1 = user_ratings.map { |rating| rating ** 2 }.inject(0, :+)
-    square_sum2 = other_user_ratings.map { |rating| rating ** 2 }.inject(0, :+)
-
-    #Sum of the products of user ratings with other_user ratings
-    product_sum = user_ratings.zip(other_user_ratings).map { |i, j| i*j }.inject(0, :+)
-
-    #Computing of Pearson correlation coef.
-    numerator = product_sum - (user_ratings_sum * other_user_ratings_sum/n)
-    # there might be an issue because this value is not meant to be negative
-    divider = Math.sqrt(((square_sum1 - user_ratings_sum**2/n) * (square_sum2 - other_user_ratings_sum**2/n)).abs)
     if divider == 0
       return [0, common_jokes]
     end
