@@ -164,7 +164,8 @@ def csv_users_categories_normalized
   CSV.open('csv_categories_normalized_rating.csv', 'wb') do |csv|
     users = user_all.map { |user| user }
     users.sort! { |user| user.ratings.length }
-    users.take(10).each do |user|
+    users.last(10).each do |user|
+      ex = [user.id]
       categories = Category.all.map { |category| [category.id, [0, 0]] }
       categories = Hash[categories.map { |key, value| [key, value] }]
       upcs = user.user_prefer_categories.select { |upc| upc.total_rated_jokes >= 2 }
@@ -175,13 +176,20 @@ def csv_users_categories_normalized
       upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
       min = upcs.first.average_rate
       max = upcs.last.average_rate
+
       upcs.each do |upc|
         categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
         categories[upc.category.id][1] += 1
       end
-      categories.each do |key, value|
-        csv << [Category.find(key).name, (value[0]/value[1].to_f).to_s]
-      end
+      categories = categories.delete_if {|_k,v| v[0] == 0}
+      categories = categories.sort_by {|_k,v| v[0]/v[1]}
+
+      key, value = categories.first
+      ex.push(value[0]/value[1])
+      ex.push(evaluate_rate(user.average,min,max))
+      key, value = categories.last
+      ex.push(value[0]/value[1])
+        csv << ex
     end
   end
 end
@@ -268,6 +276,7 @@ end
 #analyze_data
 
 #csv_category_popularity
-users_similarities
+#users_similarities
+csv_users_categories_normalized
 
 
