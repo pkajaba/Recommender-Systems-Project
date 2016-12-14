@@ -217,7 +217,7 @@ def users_similarities
         end
       end
     end
-    similarities.each_pair { |key, value| csv << [key,value] }
+    similarities.each_pair { |key, value| csv << [key[0],key[1],value] }
   end
 end
 
