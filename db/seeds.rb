@@ -140,7 +140,7 @@ def csv_category_popularity
   CSV.open('csv_category_popularity.csv', 'wb') do |csv|
     categories = Category.all.map { |category| [category.id, [0, 0]] }
     categories = Hash[categories.map { |key, value| [key, value] }]
-    User.all.each do |user|
+    user_all.each do |user|
       upcs = user.user_prefer_categories.select { |upc| upc.total_rated_jokes >= 2 }
       if upcs == []
         puts user.name
@@ -162,9 +162,10 @@ end
 
 def csv_users_categories_normalized
   CSV.open('csv_categories_normalized_rating.csv', 'wb') do |csv|
-    users = User.all.map {|user| user}
+    users = user_all.map { |user| user }
     users.sort! { |user| user.ratings.length }
-    users.take(10).each do |user|
+    users.last(10).each do |user|
+      ex = [user.id]
       categories = Category.all.map { |category| [category.id, [0, 0]] }
       categories = Hash[categories.map { |key, value| [key, value] }]
       upcs = user.user_prefer_categories.select { |upc| upc.total_rated_jokes >= 2 }
@@ -175,23 +176,29 @@ def csv_users_categories_normalized
       upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
       min = upcs.first.average_rate
       max = upcs.last.average_rate
+
       upcs.each do |upc|
         categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
         categories[upc.category.id][1] += 1
       end
-      categories.each do |key, value|
-        csv << [Category.find(key).name, (value[0]/value[1].to_f).to_s]
-      end
+      categories = categories.delete_if { |_k, v| v[0] == 0 }
+      categories = categories.sort_by { |_k, v| v[0]/v[1] }
+
+      key, value = categories.first
+      ex.push(value[0]/value[1])
+      ex.push(evaluate_rate(user.average, min, max))
+      key, value = categories.last
+      ex.push(value[0]/value[1])
+      csv << ex
     end
   end
 end
-
 
 def best_joke
   CSV.open('best_joke.csv', 'wb') do |csv|
     categories = Category.all.map { |category| [category.id, [0, 0]] }
     categories = Hash[categories.map { |key, value| [key, value] }]
-    User.all.each do |user|
+    user_all.each do |user|
       upcs = user.ratings
       upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
       min = upcs.first.average_rate
@@ -207,14 +214,118 @@ def best_joke
   end
 end
 
+def users_similarities
+  CSV.open('users_similarities.csv', 'wb') do |csv|
+    users = user_all
+    csv << user_all.map { |user| user.id }
+    users.each do |user|
+      array = ['##', user.id]
+      users.each do |otherUser|
+        # similarities[[user.id, otherUser.id]] = pearson(user, otherUser)
+        array.push(pearson(user, otherUser))
+      end
+      csv<<array
+    end
+  end
+end
+
+def pearson(user, otherUser)
+  common_jokes = user.jokes & otherUser.jokes
+  n = common_jokes.length
+  if n == 0
+    return 0
+  end
+
+  other_user_ratings_raw = find_ratings(otherUser, common_jokes)
+  user_ratings_raw = find_ratings(user, common_jokes)
+  other_user_ratings = other_user_ratings_raw.uniq { |rating| rating.joke_id }
+  user_ratings = user_ratings_raw.uniq { |rating| rating.joke_id }
+  other_user_ratings = other_user_ratings.map { |rating| rating.user_rating }
+  user_ratings = user_ratings.map { |rating| rating.user_rating }
+  #should not happen but it happened :D
+  if (user_ratings.length != other_user_ratings.length)
+    return 0
+  end
+
+  numerator = user_ratings.zip(other_user_ratings).map { |i, j| (i- user.average)*(j-otherUser.average) }
+                  .inject(0, :+)
+  divider_user = other_user_ratings.map {
+      |rating| (rating- otherUser.average)**2 }.inject(0, :+)
+  divider_other = user_ratings.map {
+      |rating| (rating- user.average)**2 }.inject(0, :+)
+
+  divider = Math.sqrt(divider_user)*Math.sqrt(divider_other)
+
+  if divider == 0
+    return 0
+  end
+  numerator/divider
+end
+
+def find_ratings(user, jokes)
+  Rating.where(:user_id => user.id).where(:joke_id => jokes)
+end
+
+def user_all
+  User.all.select { |user| user.ratings.length > 10 }
+end
+
+def strategies
+  CSV.open('strategies.csv', 'wb') do |csv|
+
+    users = user_all
+    array0 = Array.new(700) { [0, 0] }
+    array1 = Array.new(700) { [0, 0] }
+    array2 = Array.new(700) { [0, 0] }
+    users.each do |user|
+      ratings = user.ratings.select {|a| a}
+      ratings = ratings.sort_by! { |a| a.id }
+      user_average = user.average
+      i = 1
+      ratings.each do |rating|
+        if user.strategy == 0
+          array0[i][0] += rating.user_rating
+          array0[i][1] += 1
+        elsif user.strategy == 1
+          array1[i][0] += rating.user_rating
+          array1[i][1] += 1
+        else
+          array2[i][0] += rating.user_rating
+          array2[i][1] += 1
+        end
+        i+=1
+      end
+
+    end
+
+    699.times do |i|
+      array0[i][0] += array0[i-1][0]
+      array0[i][1] += array0[i-1][1]
+      array1[i][0] += array1[i-1][0]
+      array1[i][1] += array1[i-1][1]
+      array2[i][0] += array2[i-1][0]
+      array2[i][1] += array2[i-1][1]
+    end
+
+    700.times do |i|
+      a1 = 0
+      a1 = array0[i][0]/array0[i][1].to_f if array0[i][0] != 0
+      a2 = 0
+      a2 = array1[i][0]/array1[i][1].to_f if array1[i][0] != 0
+      a3 = 0
+      a3 = array2[i][0]/array2[i][1].to_f if array2[i][0] != 0
+      csv << [a1,a2,a3]
+    end
+
+  end
+end
 
 #MAIN
 #create_filtered_data(20)
 #save_some_csv
 #analyze_data
 
+#csv_category_popularity
+#users_similarities
 
-csv_users_categories_normalized
-
-
-
+strategies
