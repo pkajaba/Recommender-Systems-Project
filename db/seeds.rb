@@ -140,7 +140,7 @@ def csv_category_popularity
   CSV.open('csv_category_popularity.csv', 'wb') do |csv|
     categories = Category.all.map { |category| [category.id, [0, 0]] }
     categories = Hash[categories.map { |key, value| [key, value] }]
-    User.all.each do |user|
+    user_all.each do |user|
       upcs = user.user_prefer_categories.select { |upc| upc.total_rated_jokes >= 2 }
       if upcs == []
         puts user.name
@@ -162,7 +162,7 @@ end
 
 def csv_users_categories_normalized
   CSV.open('csv_categories_normalized_rating.csv', 'wb') do |csv|
-    users = User.all.map { |user| user }
+    users = user_all.map { |user| user }
     users.sort! { |user| user.ratings.length }
     users.take(10).each do |user|
       categories = Category.all.map { |category| [category.id, [0, 0]] }
@@ -190,7 +190,7 @@ def best_joke
   CSV.open('best_joke.csv', 'wb') do |csv|
     categories = Category.all.map { |category| [category.id, [0, 0]] }
     categories = Hash[categories.map { |key, value| [key, value] }]
-    User.all.each do |user|
+    user_all.each do |user|
       upcs = user.ratings
       upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
       min = upcs.first.average_rate
@@ -208,7 +208,7 @@ end
 
 def users_similarities
   CSV.open('users_similarities.csv', 'wb') do |csv|
-    users = User.all
+    users = user_all
     similarities = Hash.new
     users.each do |user|
       users.each do |otherUser|
@@ -256,6 +256,10 @@ end
 
 def find_ratings(user, jokes)
   Rating.where(:user_id => user.id).where(:joke_id => jokes)
+end
+
+def user_all
+  User.all.select {|user| user.ratings.length > 10}
 end
 
 #MAIN
