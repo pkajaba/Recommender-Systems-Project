@@ -125,7 +125,7 @@ end
 
 def evaluate_rate(rating, min, max)
   return 0 if rating - min < 0.1
-  max-min / rating-min
+  (rating-min) / (max-min)
 end
 
 def normalize_rating(rating, average)
@@ -144,14 +144,17 @@ def csv_category_popularity
   #CSV.open('../graphs/csv_category_popularity.csv', 'wb') do |csv|
     categories = Category.all.map { |category| [category.id, [0, 0] ] }
     categories = Hash[categories.map {|key, value| [key, value]}]
-    categories
     User.all.each do |user|
       upcs = user.user_prefer_categories.select {|upc| upc.total_rated_jokes >= 2}
+      if upcs == []
+        puts user.name
+        next
+      end
       upcs.sort! {|a,b| a.average_rate <=> b.average_rate}
-      min = upcs.first
-      max = upcs.last
+      min = upcs.first.average_rate
+      max = upcs.last.average_rate
       upcs.each do |upc|
-        categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max) #TODO este premysliet
+        categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
         categories[upc.category.id][1] += 1
       end
     end
@@ -168,9 +171,13 @@ def csv_users_categories_normalized
       categories = Category.all.map { |category| [category.id, [0, 0] ] }
       categories = Hash[categories.map {|key, value| [key, value]}]
       upcs = user.user_prefer_categories.select {|upc| upc.total_rated_jokes >= 2}
+      if upcs == []
+        puts user.name
+        next
+      end
       upcs.sort! {|a,b| a.average_rate <=> b.average_rate}
-      min = upcs.first
-      max = upcs.last
+      min = upcs.first.average_rate
+      max = upcs.last.average_rate
       upcs.each do |upc|
         categories[upc.category.id][0] += evaluate_rate(upc.average, min, max) #TODO este premysliet
         categories[upc.category.id][1] += 1
