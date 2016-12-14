@@ -162,7 +162,7 @@ end
 
 def csv_users_categories_normalized
   CSV.open('csv_categories_normalized_rating.csv', 'wb') do |csv|
-    users = User.all.map {|user| user}
+    users = User.all.map { |user| user }
     users.sort! { |user| user.ratings.length }
     users.take(10).each do |user|
       categories = Category.all.map { |category| [category.id, [0, 0]] }
@@ -185,6 +185,7 @@ def csv_users_categories_normalized
     end
   end
 end
+
 def best_joke
   CSV.open('best_joke.csv', 'wb') do |csv|
     categories = Category.all.map { |category| [category.id, [0, 0]] }
@@ -206,16 +207,18 @@ def best_joke
 end
 
 def users_similarities
-  users = User.all
-  similarities = Hash.new
-  users.each do |user|
-    users.each do |otherUser|
-      if similarities[[user.id, otherUser.id]] == nil && similarities[[otherUser.id, user.id]] == nil
-        similarities[[user.id, otherUser.id]] = pearson(user, otherUser)
+  CSV.open('users_similarities.csv', 'wb') do |csv|
+    users = User.all
+    similarities = Hash.new
+    users.each do |user|
+      users.each do |otherUser|
+        if similarities[[user.id, otherUser.id]] == nil && similarities[[otherUser.id, user.id]] == nil
+          similarities[[user.id, otherUser.id]] = pearson(user, otherUser)
+        end
       end
     end
+    similarities.each_pair { |key, value| csv << [key,value] }
   end
-  similarities.each_pair {|key,value| puts "#{key} = #{value}"}
 end
 
 def pearson(user, otherUser)
@@ -227,25 +230,21 @@ def pearson(user, otherUser)
 
   other_user_ratings_raw = find_ratings(otherUser, common_jokes)
   user_ratings_raw = find_ratings(user, common_jokes)
-  other_user_ratings = other_user_ratings_raw.uniq {|rating| rating.joke_id}
-  user_ratings = user_ratings_raw.uniq {|rating| rating.joke_id}
+  other_user_ratings = other_user_ratings_raw.uniq { |rating| rating.joke_id }
+  user_ratings = user_ratings_raw.uniq { |rating| rating.joke_id }
   other_user_ratings = other_user_ratings.map { |rating| rating.user_rating }
   user_ratings = user_ratings.map { |rating| rating.user_rating }
-  if user.id == 10
-    binding.pry
-    print user_ratings
-  end
   #should not happen but it happened :D
   if (user_ratings.length != other_user_ratings.length)
     return 0
   end
 
-  numerator = user_ratings.zip(other_user_ratings).map { |i, j| (i- user.average)*(j-otherUser.average)}
-                   .inject(0, :+)
+  numerator = user_ratings.zip(other_user_ratings).map { |i, j| (i- user.average)*(j-otherUser.average) }
+                  .inject(0, :+)
   divider_user = other_user_ratings.map {
-      |rating| (rating- otherUser.average)**2}.inject(0, :+)
+      |rating| (rating- otherUser.average)**2 }.inject(0, :+)
   divider_other = user_ratings.map {
-      |rating| (rating- user.average)**2}.inject(0, :+)
+      |rating| (rating- user.average)**2 }.inject(0, :+)
 
   divider = Math.sqrt(divider_user)*Math.sqrt(divider_other)
 
