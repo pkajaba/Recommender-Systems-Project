@@ -147,16 +147,16 @@ def csv_category_popularity
     categories
     User.all.each do |user|
       upcs = user.user_prefer_categories.select {|upc| upc.total_rated_jokes >= 2}
-      upcs.sort! {|a,b| a.average <=> b.average}
+      upcs.sort! {|a,b| a.average_rate <=> b.average_rate}
       min = upcs.first
       max = upcs.last
       upcs.each do |upc|
-        categories[upc.category.id][0] += evaluate_rate(upc.average, min, max) #TODO este premysliet
+        categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max) #TODO este premysliet
         categories[upc.category.id][1] += 1
       end
     end
     categories.each do |key, value|
-      puts Category.find(key).name + ',' +(value[0]/value[1]]).to_s
+      puts Category.find(key).name + ',' + (value[0]/value[1].to_f).to_s
     end
   #end
 end
@@ -165,13 +165,19 @@ def csv_users_categories_normalized
   #CSV.open('../graphs/csv_categories_normalized_rating.csv', 'wb') do |csv|
     users = User.all.each.sort! {|user| user.ratings.length}
     users.take(10).each do |user|
-      user.user_prefer_categories.select {|upc| upc.total_rated_jokes >= 2}
-    end
-
-    categories = Category.all.map { |category|}
-    Rating.all.each do |rating|
-      rating.user.average
-      rating.joke.category
+      categories = Category.all.map { |category| [category.id, [0, 0] ] }
+      categories = Hash[categories.map {|key, value| [key, value]}]
+      upcs = user.user_prefer_categories.select {|upc| upc.total_rated_jokes >= 2}
+      upcs.sort! {|a,b| a.average_rate <=> b.average_rate}
+      min = upcs.first
+      max = upcs.last
+      upcs.each do |upc|
+        categories[upc.category.id][0] += evaluate_rate(upc.average, min, max) #TODO este premysliet
+        categories[upc.category.id][1] += 1
+      end
+      categories.each do |key, value|
+        puts Category.find(key).name + ',' +(value[0]/value[1].to_f).to_s
+      end
     end
   #end
 end
