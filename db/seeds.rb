@@ -373,6 +373,46 @@ def other_stats
   end
 end
 
+def other_other_stats
+  CSV.open('other_other_stats.csv', 'wb') do |csv|
+    #categories = Hash[categories.map { |key, value| [key, value] }]
+    users = user_all.map { |user| user }
+    users.sort! { |user| user.ratings.length }
+    users.last(10).each do |user|
+      lengths = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+      user.ratings.each do |rating|
+        ua = user.average
+        ur = rating.user_rating
+        length = rating.joke.content.length
+        if ur != 0 and ua != 0
+          if length <= 77
+            lengths[0][0] += ur / ua
+            lengths[0][1] += 1
+          elsif length <= 110
+            lengths[1][0] += ur / ua
+            lengths[1][1] += 1
+          elsif length <= 154
+            lengths[2][0] += ur / ua
+            lengths[2][1] += 1
+          elsif length <= 225
+            lengths[3][0] += ur / ua
+            lengths[3][1] += 1
+          else
+            lengths[4][0] += ur / ua
+            lengths[4][1] += 1
+          end
+        end
+      end
+      csv << [user.id]
+      csv << ['-77', lengths[0][0]/lengths[0][1].to_f]
+      csv << ['78-110', lengths[1][0]/lengths[1][1].to_f]
+      csv << ['111-154', lengths[2][0]/lengths[2][1].to_f]
+      csv << ['155-225', lengths[3][0]/lengths[3][1].to_f]
+      csv << ['226-', lengths[4][0]/lengths[4][1].to_f]
+    end
+  end
+end
+
 
 #MAIN
 #create_filtered_data(20)
@@ -384,4 +424,4 @@ end
 
 #strategies
 
-other_stats
+other_other_stats
