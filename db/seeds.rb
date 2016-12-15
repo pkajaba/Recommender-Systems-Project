@@ -332,9 +332,47 @@ def some_facts
     csv << ['best joke', best_joke[1].content, best_joke[1].category.name]
     csv << ['worst joke', worst_joke[1].content, worst_joke[1].category.name]
   end
-
-
 end
+
+def other_stats
+  CSV.open('other_stats.csv', 'wb') do |csv|
+    lengths = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+    #categories = Hash[categories.map { |key, value| [key, value] }]
+    Rating.all.each do |rating|
+      ua = rating.user.average
+      ur = rating.user_rating
+      length = rating.joke.content.length
+      puts length
+      puts ua
+      puts ur
+      puts
+      if ur != 0 and ua != 0
+        if length <= 77
+          lengths[0][0] += ur / ua
+          lengths[0][1] += 1
+        elsif length <= 110
+          lengths[1][0] += ur / ua
+          lengths[1][1] += 1
+        elsif length <= 154
+          lengths[2][0] += ur / ua
+          lengths[2][1] += 1
+        elsif length <= 225
+          lengths[3][0] += ur / ua
+          lengths[3][1] += 1
+        else
+          lengths[4][0] += ur / ua
+          lengths[4][1] += 1
+        end
+      end
+    end
+    csv << ['-77', lengths[0][0]/lengths[0][1].to_f]
+    csv << ['78-110', lengths[1][0]/lengths[1][1].to_f]
+    csv << ['111-154', lengths[2][0]/lengths[2][1].to_f]
+    csv << ['155-225', lengths[3][0]/lengths[3][1].to_f]
+    csv << ['226-', lengths[4][0]/lengths[4][1].to_f]
+  end
+end
+
 
 #MAIN
 #create_filtered_data(20)
@@ -346,4 +384,4 @@ end
 
 #strategies
 
-some_facts
+other_stats
