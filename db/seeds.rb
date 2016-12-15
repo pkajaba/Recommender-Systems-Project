@@ -137,7 +137,7 @@ def csv_jokes_length_in_categories
 end
 
 def csv_category_popularity
-  CSV.open('csv_category_popularity.csv', 'wb') do |csv|
+  CSV.open('csv_category_popularityB.csv', 'wb') do |csv|
     categories = Category.all.map { |category| [category.id, [0, 0]] }
     categories = Hash[categories.map { |key, value| [key, value] }]
     user_all.each do |user|
@@ -147,10 +147,10 @@ def csv_category_popularity
         next
       end
       upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
-      min = upcs.first.average_rate
-      max = upcs.last.average_rate
+      total_average = upcs.inject(0) { |sum, x| sum + x.average_rate }
+      total_average = total_average / upcs.length.to_f
       upcs.each do |upc|
-        categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
+        categories[upc.category.id][0] += upc.average_rate/total_average
         categories[upc.category.id][1] += 1
       end
     end
@@ -161,7 +161,7 @@ def csv_category_popularity
 end
 
 def csv_users_categories_normalized
-  CSV.open('csv_categories_normalized_rating.csv', 'wb') do |csv|
+  CSV.open('csv_categories_normalized_ratingB.csv', 'wb') do |csv|
     users = user_all.map { |user| user }
     users.sort! { |user| user.ratings.length }
     users.last(10).each do |user|
@@ -174,11 +174,11 @@ def csv_users_categories_normalized
         next
       end
       upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
-      min = upcs.first.average_rate
-      max = upcs.last.average_rate
+      total_average = upcs.inject(0) { |sum, x| sum + x.average_rate }
+      total_average = total_average / upcs.length.to_f
 
       upcs.each do |upc|
-        categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
+        categories[upc.category.id][0] += upc.average_rate/total_average
         categories[upc.category.id][1] += 1
       end
       categories = categories.delete_if { |_k, v| v[0] == 0 }
@@ -186,7 +186,6 @@ def csv_users_categories_normalized
 
       key, value = categories.first
       ex.push(value[0]/value[1])
-      ex.push(evaluate_rate(user.average, min, max))
       key, value = categories.last
       ex.push(value[0]/value[1])
       csv << ex
@@ -423,5 +422,5 @@ end
 #users_similarities
 
 #strategies
-
-other_other_stats
+csv_users_categories_normalized
+csv_category_popularity
