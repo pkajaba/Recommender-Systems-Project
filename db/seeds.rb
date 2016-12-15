@@ -194,25 +194,6 @@ def csv_users_categories_normalized
   end
 end
 
-def best_joke
-  CSV.open('best_joke.csv', 'wb') do |csv|
-    categories = Category.all.map { |category| [category.id, [0, 0]] }
-    categories = Hash[categories.map { |key, value| [key, value] }]
-    user_all.each do |user|
-      upcs = user.ratings
-      upcs.sort! { |a, b| a.average_rate <=> b.average_rate }
-      min = upcs.first.average_rate
-      max = upcs.last.average_rate
-      upcs.each do |upc|
-        categories[upc.category.id][0] += evaluate_rate(upc.average_rate, min, max)
-        categories[upc.category.id][1] += 1
-      end
-    end
-    categories.each do |key, value|
-      puts Category.find(key).name + ',' + (value[0]/value[1].to_f).to_s
-    end
-  end
-end
 
 def users_similarities
   CSV.open('users_similarities.csv', 'wb') do |csv|
@@ -278,7 +259,7 @@ def strategies
     array1 = Array.new(700) { [0, 0] }
     array2 = Array.new(700) { [0, 0] }
     users.each do |user|
-      ratings = user.ratings.select {|a| a}
+      ratings = user.ratings.select { |a| a }
       ratings = ratings.sort_by! { |a| a.id }
       user_average = user.average
       i = 1
@@ -314,10 +295,45 @@ def strategies
       a2 = array1[i][0]/array1[i][1].to_f if array1[i][0] != 0
       a3 = 0
       a3 = array2[i][0]/array2[i][1].to_f if array2[i][0] != 0
-      csv << [a1,a2,a3]
+      csv << [a1, a2, a3]
     end
 
   end
+end
+
+def some_facts
+  CSV.open('some_facts.csv', 'wb') do |csv|
+    users = user_all.sort { |a, b| a.average <=> b.average }
+    csv << [users.last.id, users.last.name, users.last.average]
+    csv << [users.first.id, users.last.name, users.first.average]
+
+    best_joke = [0, 0]
+    worst_joke = [100000, 0]
+    Joke.all.each do |joke|
+      j = [0, 0]
+      joke.ratings.each do |rating|
+        if rating.user.average > 0.1
+          j[0] += rating.user_rating / rating.user.average.to_f
+          j[1] += 1
+        end
+      end
+      if j[1] > 0.1
+        if j[0]/j[1] > best_joke[0]
+          best_joke[0] = j[0]/j[1]
+          best_joke[1] = joke
+        end
+        if j[0]/j[1] < worst_joke[0]
+          worst_joke[0] = j[0]/j[1]
+          worst_joke[1] = joke
+        end
+      end
+    end
+
+    csv << ['best joke', best_joke[1].content, best_joke[1].category.name]
+    csv << ['worst joke', worst_joke[1].content, worst_joke[1].category.name]
+  end
+
+
 end
 
 #MAIN
@@ -328,4 +344,6 @@ end
 #csv_category_popularity
 #users_similarities
 
-strategies
+#strategies
+
+some_facts
